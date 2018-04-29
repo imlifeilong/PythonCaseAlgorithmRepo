@@ -1,51 +1,50 @@
 # _*_ coding:utf-8 _*_
 '''
-¿ìËÙÅÅÐòÊÇÒ»ÖÖ»®·Ö½»»»ÅÅÐò
-»ù±¾Ë¼ÏëÊÇ£º
-1£®ÏÈ´ÓÊýÁÐÖÐÈ¡³öÒ»¸öÊý×÷Îª»ù×¼Êý£¬Ò»°ãÊÇµÚÒ»¸öÊý¡£
-2£®½«±ÈÕâ¸öÊý´óµÄÊýÈ«·Åµ½ËüµÄÓÒ±ß£¬Ð¡ÓÚ»òµÈÓÚËüµÄÊýÈ«·Åµ½ËüµÄ×ó±ß¡£
-3£®ÔÙ¶Ô×óÓÒÇø¼äÖØ¸´µÚ¶þ²½£¬Ö±µ½¸÷Çø¼äÖ»ÓÐÒ»¸öÊý¡£
-ÈôÐòÁÐ»ù±¾ÓÐÐòÊ±£¬ÍÉ±ä³ÉÃ°ÅÝÅÅÐò£¬×î»µÇé¿öÊÇÒÑ¾­ÅÅºÃÐò
-Æ½¾ùÊ±¼ä¸´ÔÓ¶ÈO(nlogn)
+å¿«é€ŸæŽ’åºæ˜¯ä¸€ç§åˆ’åˆ†äº¤æ¢æŽ’åº
+åŸºæœ¬æ€æƒ³æ˜¯ï¼š
+1ï¼Žå…ˆä»Žæ•°åˆ—ä¸­å–å‡ºä¸€ä¸ªæ•°ä½œä¸ºåŸºå‡†æ•°ï¼Œä¸€èˆ¬æ˜¯ç¬¬ä¸€ä¸ªæ•°ã€‚
+2ï¼Žå°†æ¯”è¿™ä¸ªæ•°å¤§çš„æ•°å…¨æ”¾åˆ°å®ƒçš„å³è¾¹ï¼Œå°äºŽæˆ–ç­‰äºŽå®ƒçš„æ•°å…¨æ”¾åˆ°å®ƒçš„å·¦è¾¹ã€‚
+3ï¼Žå†å¯¹å·¦å³åŒºé—´é‡å¤ç¬¬äºŒæ­¥ï¼Œç›´åˆ°å„åŒºé—´åªæœ‰ä¸€ä¸ªæ•°ã€‚
+è‹¥åºåˆ—åŸºæœ¬æœ‰åºæ—¶ï¼Œèœ•å˜æˆå†’æ³¡æŽ’åºï¼Œæœ€åæƒ…å†µæ˜¯å·²ç»æŽ’å¥½åº
+å¹³å‡æ—¶é—´å¤æ‚åº¦O(nlogn)
 '''
 
-def swift(alist,left,right):
-    low = left
-    hight = right
-    item = alist[left]
+def swift(alist, low, hight):
+    item = alist[low]
     while low < hight:
-        #´ÓÓÒÏò×óÕÒÐ¡ÓÚitemµÄÊý
-        while alist[hight] > item and low < hight:
+        #ä»Žå³å‘å·¦æ‰¾å°äºŽitemçš„æ•°
+        while alist[hight] >= item and low < hight:
             hight -= 1
-        #ÕÒµ½ºó»»µ½item×ó±ß
+
+        #æ‰¾åˆ°åŽæ¢åˆ°itemå·¦è¾¹
         if low < hight:
             alist[low] = alist[hight]
             low += 1
-        #´Ó×óÍùÓÒÕÒ´óÓÚitemµÄÊý
+
+        #ä»Žå·¦å¾€å³æ‰¾å¤§äºŽitemçš„æ•°
         while alist[low] < item and low < hight:
             low += 1
-        #ÕÒµ½ºó»»µ½itemÓÒ±ß
+
+        #æ‰¾åˆ°åŽæ¢åˆ°itemå³è¾¹
         if low < hight:
             alist[hight] = alist[low]
             hight -= 1
-    #item¹éÎ»
+    #itemå½’ä½
     alist[low] = item
-    return low
 
+    return low
     
-def quick(alist):
-    left = 0
-    right = len(alist) - 1
-    #¶þ·ÖÊýÁÐ
+def quick(alist, left, right):
+    #äºŒåˆ†æ•°åˆ—
     if left < right:
-        mid = swift(alist,left,right)
-        swift(alist,left,mid-1)
-        swift(alist,mid+1,right)
+        mid = swift(alist, left, right)
+        quick(alist, left, mid-1)
+        quick(alist, mid+1, right)
     return alist
-    
-    
+
+
 if __name__ == "__main__":
     alist = [23,4,66,23,4,66,43,14,8,32,43,14,8,32]
-    print quick(alist)
+    print(quick(alist, 0, len(alist)-1))
 
     
