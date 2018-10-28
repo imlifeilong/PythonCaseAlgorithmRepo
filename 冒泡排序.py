@@ -1,7 +1,10 @@
 # _*_ coding:utf-8 _*_
 '''
-反复扫描序列，在扫描过程中顺次比较两个元素大小，如果逆序交换位置（如果某一趟冒泡排序中，没有发现一个逆序，则可以直接结束整个排序）
-最坏的情况：序列完全逆序。时间复杂度是O(n2)，空间复杂度O(1)，是稳定的排序。
+反复扫描序列，在扫描过程中顺次比较两个元素大小，
+如果逆序交换位置（如果某一趟冒泡排序中，没有发现一个逆序，则可以直接结束整个排序）
+最好情况：序列都是正序的，时间复杂度O(n)，比较n-1次 交换0次
+最坏的情况：序列完全逆序。时间复杂度是O(n2)，空间复杂度O(1)
+平均O(n2)
 '''
 
 def bsort(nlist):
@@ -28,10 +31,11 @@ def bsort1(nlist):
         #如果哪一趟没有交换（全部顺序），则表示全部排好序（剩下的都排好序不用交换）
         flag = 0
         for j in range(nlen-1):
+            # 判断是否有逆序的，如果有调换
             if nlist[j] > nlist[j+1]:
                 nlist[j],nlist[j+1] = nlist[j+1],nlist[j]
                 flag = 1
-        print flag,nlen,nlist
+        # print(flag,nlen,nlist)
         nlen -= 1
         
     return nlist
@@ -42,7 +46,7 @@ if __name__ == "__main__":
     nlist = [3,6,7,3,4,5,1]
     #bsort(nlist)
     #print bsort1(nlist)
-    print bsort1(nlist1)
+    print(bsort1(nlist1))
     '''
     1 7 [3, 6, 3, 4, 5, 1, 7]
     1 6 [3, 3, 4, 5, 1, 6, 7]
