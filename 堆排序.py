@@ -74,19 +74,20 @@ def MAX_Heapify(heap, HeapSize, root):#在堆中做结构调整使得父节点�
     if larger != root:
         #如果最大点不是父节点，这个时候做对调值操作
         heap[larger], heap[root] = heap[root], heap[larger]
-        # 调换完了之后，要对
+        # 调换完了之后，要比较该节点和他的父节点，直到所有的子节点小于父节点
         MAX_Heapify(heap, HeapSize, larger)
 
 def Build_MAX_Heap(heap):#构造一个堆，将堆中所有数据重新排序
     HeapSize = len(heap)
     for i in range((HeapSize-2)//2, -1, -1):
         # 从后往前获取有子节点的元素（n/2-1到0之间的元素有子节点）
-        print(heap[i])
+        # print(heap[i])
         MAX_Heapify(heap, HeapSize, i)
 
 def HeapSort(heap):#将根节点取出与最后一位做对调，对前面len-1个节点继续进行对调整过程。
     Build_MAX_Heap(heap)
     for i in range(len(heap)-1,-1,-1):
+        # 将根与最后一位元素交换，然后调整堆
         heap[0], heap[i] = heap[i], heap[0]
         MAX_Heapify(heap, i, 0)
     return heap
