@@ -3,62 +3,10 @@
 #父节点 list[i]  左节点 list[2i+1] 右节点 list[2i+2]
 #大根堆 list[i] >= list[2i+1] && list[i] >= list[2i+2]
 #小根堆 list[i] <= list[2i+1] && list[i] <= list[2i+2]
-# def swap(res, des):
-#     return des, res
-
-# def create_max_heap(data):
-
-#     for i in range(int(len(data)/2)-1, -1, -1):
-#         min_heap(data, len(data), i)
-
-# def min_heap(data, length, index):
-#     '''
-#     data: 堆列表
-#     length: 长度
-#     index: 需要调整的编号
-#     '''
-#     left = index * 2 + 1
-#     right = index * 2 + 2
-#     flag = 0 # 标记是否需要调整
-#     least = 0
-#     # print(' ', data[index])
-#     # print()
-#     # print(data[left], data[right])
-#     # 和左儿子比较，并记录比较结果
-#     if data[left] < data[index]:
-#         least = left
-#     else:
-#         least = index
-    
-#     # 判断是否有右儿子
-#     if right <= length:
-#         # 和右儿子比较
-#         if data[right] < data[least]:
-#             least = right 
-    
-#     # 如果最小的节点号不是自己，交换
-#     if least != index:
-#         data[index], data[least] = data[least], data[index]
-#         index = least
-
-# def heap_sort(data):
-#     create_max_heap(data)
-
-#     for i in range(len(data)-1, 0, -1):
-#         data[0], data[i] = data[i], data[0]
-#         min_heap(data, i, 0)
-    
-#     return data
-
-# if __name__ == '__main__':
-#     data = [23,4,66,23,4,66,43,14,8,32,43,14,8]
-#     heap_sort(data)
-#     print(data)
-#     # create_max_heap(data)
-
 
 
 import random
+
 
 def MAX_Heapify(heap, HeapSize, root):#在堆中做结构调整使得父节点的值大于子节点
 

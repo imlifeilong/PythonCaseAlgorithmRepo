@@ -10,28 +10,30 @@
 '''
 
 def swift(alist, low, hight):
+    # 选择第一个数作为基点，位置为t0
     item = alist[low]
     while low < hight:
-        #从右向左找小于item的数
+        #从右向左依次和基点的数比较，位置为t1，如果大于基点，位置向左挪1位(t1=t1-1)
         while alist[hight] >= item and low < hight:
             hight -= 1
 
-        #找到后换到item左边
+        #如果有小于基点的数，放到t0，左端位置向右挪1位(t2=t2+1)
         if low < hight:
             alist[low] = alist[hight]
             low += 1
 
-        #从左往右找大于item的数
+        #从左往右找大于基点的数，位置为t2，如果小于基点，位置向右挪1位(t2=t2+1)
         while alist[low] < item and low < hight:
             low += 1
 
-        #找到后换到item右边
+        #如果有大于基点的数，放到t2，右端的位置向左挪1位(t1=t1-1)
         if low < hight:
             alist[hight] = alist[low]
             hight -= 1
-    #item归位
-    alist[low] = item
 
+    #调整完后基点左边的数小于基点，右边的数大于基点
+    alist[low] = item
+    # 返回调整后基点的位置
     return low
     
 def quick(alist, left, right):
