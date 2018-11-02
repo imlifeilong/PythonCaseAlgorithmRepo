@@ -15,12 +15,16 @@
 def insert(alist):
     alen = len(alist)
     for i in range(1,alen): #默认第一个数为有序序列
-        index = i
-        item = alist[index]
-        # 原始序列中第一个元素，插入到有序列中合适的位置
+        index = i #标记要排序的元素位置
+        item = alist[index] #排序的元素
+
+        # 用item在有序序列元素从后往前扫描
         while index > 0 and alist[index-1] > item:
+            # 如果有序序列中的元素比item大，就往后挪一个位置
             alist[index] = alist[index-1]
+            # 再进行下次比较
             index -= 1
+        # 找到自己的位置
         alist[index] = item
     return alist
 
