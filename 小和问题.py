@@ -49,12 +49,13 @@ def merge(left, right):
         if left[0] < right[0]:
             # 求和
             n += left[0] * len(right)
-
         # 如果右边第一个数小于左边第一位数，右一就和左边所有的数组成逆序对，否则不是
         elif left[0] > right[0]:
             m += len(left)
+        
         else:
             n += 0; m += 0
+
         #为了保持稳定性，当遇到相等的时候优先把左侧的数放进结果列表，因为left本来也是大数列中比较靠左的
         if left[0] <= right[0]:
             result.append(left.pop(0))

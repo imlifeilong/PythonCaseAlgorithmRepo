@@ -11,7 +11,8 @@ def merge_sort(data):
         return data
 
     #取拆分的中间位置
-    mid = len(data) // 2
+    # mid = len(data) // 2
+    mid = len(data) >> 1
     #拆分过后左右两侧子串
     left = data[:mid]
     right = data[mid:]
@@ -24,6 +25,7 @@ def merge_sort(data):
 
     # 我们对返回的两个拆分结果进行排序后合并再返回正确顺序的子列表
     # 这里我们调用拎一个函数帮助我们按顺序合并ll和lr
+
     return merge(ll, rl)
 
 #这里接收两个列表
@@ -42,9 +44,10 @@ def merge(left, right):
         result += left
     if right:
         result += right
+
     return result
 
 if __name__ == '__main__':
-    li = [23,4,66,23,4,66,43,14,8,32,43,14,8]
+    li = [5, 0, 8, 4, 3, 1, 3, 6, 2, 4]
     li2 = merge_sort(li)
     print(li2)
