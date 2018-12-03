@@ -41,5 +41,5 @@ def sort(data, left, right):
 
 if __name__ == '__main__':
     a = [5, 3, 4, 2, 6, 1, 1, 7, 8, 5, 9, 5, 5, 6, 5]
-    # a = [3, 4, 2, 1]
+    a = [-1, -1, 0, -3, -99]
     print(sort(a, 0, len(a)-1))
