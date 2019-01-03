@@ -35,27 +35,6 @@ class Stack():
             raise 'stack is empty'
         return self.min_stack[-1]
 
-from queue import Queue
-
-class LifoQueue(Queue):
-    def _init(self, maxsize):
-        self.queue = []
-
-    def _qsize(self):
-        return len(self.queue)
-
-    def _put(self, item):
-        self.queue.append(item)
-
-    def _get(self):
-        return self.queue.pop()
-# class MinStack():
-#     def __init__(self):
-#         self.__s = LifoQueue()
-#         self.__ms = LifoQueue()
-
-#     def push(self, num):
-#         self.__s.put(num)
 
 if __name__ == '__main__':
     # s = Stack()
