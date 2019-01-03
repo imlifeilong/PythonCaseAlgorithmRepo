@@ -36,17 +36,48 @@ class Stack():
             return
         return self.data[self.top-1]
 
+class PyStack():
+    def __init__(self, size=0):
+        self.size = size
+        self.__s = []
+
+    def push(self, num):
+        self.__s.append(num)
+
+    def pop(self):
+        if self.empty():
+            raise 'EmptyStackError'    
+        
+        return self.__s.pop()
+
+    def peek(self):
+        if self.empty():
+            raise 'EmptyStackError'
+        return self.__s[-1]
+
+    def empty(self):
+        return len(self.__s) == 0
+
 
 if __name__ == '__main__':
-    s = Stack(3)
-    s.push(1)
-    # s.push(11)
-    # s.push(12)
+    pys = PyStack()
+    pys.push(3)
+    pys.push(2)
+    pys.push(1)
+    # print(pys.pop())
+    # print(pys.pop())
+    # print(pys.pop())
+    print(pys.peek())
+    # print(pys.pop())
+    # s = Stack(3)
+    # s.push(1)
+    # # s.push(11)
+    # # s.push(12)
 
-    print(s.data)
-    # s.pop()
-    # s.pop()
-    # s.pop()
+    # print(s.data)
+    # # s.pop()
+    # # s.pop()
+    # # s.pop()
 
-    print(s.data)
-    print(s.peek())
+    # print(s.data)
+    # print(s.peek())
