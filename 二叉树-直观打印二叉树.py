@@ -36,4 +36,5 @@ def printInOrder(root, height, preStr, length):
 
 if __name__ == '__main__':
     ct = Node('A',Node('B',Node('D'),Node('E')),Node('C',right=Node('F',Node('G'))))
+    ct = Node('4',Node('2',Node('1'),Node('3')),Node('5',right=Node('7',Node('6'))))
     printTree(ct)
