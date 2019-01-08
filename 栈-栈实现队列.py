@@ -47,7 +47,7 @@ class Stack2Queue():
                 self.__h.push(self.__s.pop())
 
     def empty(self):
-        return len(self.__s) == 0
+        return self.__s.empty() and self.__h.empty()
 
 
 if __name__ == '__main__':
@@ -57,12 +57,14 @@ if __name__ == '__main__':
     sq.put(1)
     # print(sq.get())
     print(sq.get())
+    print(sq.empty())
     sq.put(8)
     print(sq.get())
     print(sq.get())
     sq.put(9)
     print(sq.get())
     print(sq.get())
+    print(sq.empty())
     # s = Stack()
     # s.push(3)
     # # s.push(5)
