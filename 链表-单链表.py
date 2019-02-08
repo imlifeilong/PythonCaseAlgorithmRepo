@@ -81,12 +81,16 @@ class SingleLink():
         pre = None
         cur = self.__node
         while cur:
+            # 找到要删除的节点 
             if cur.value == value:
+                # 如果刚好是头节点，就指向下个节点 
                 if cur == self.__node:
                     self.__node = cur.next
+                # 如果不是头节点，则前一个节点直接指向当前节点的下个节点
                 else:
                     pre.next = cur.next
                 break
+            # 先保存当前节点为 前一个节点，将当前节点指向下个节点
             else:
                 pre = cur
                 cur = cur.next
