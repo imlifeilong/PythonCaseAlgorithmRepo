@@ -36,7 +36,7 @@ class SingleLink():
             cur = self.__node
             while cur.next:
                 cur = cur.next
-            cur.next = node
+            cur.next = tmp
 
 
     def insert_head(self, value):
@@ -59,15 +59,18 @@ class SingleLink():
         else:
             cur = self.__node
             count = 0
-            # 找到index位置之前的节点
+            # 找到index位置之前的节点，置为当前节点
             while count < index - 1:
                 count += 1
                 cur = cur.next
+            # 创建新节点 
             tmp = Node(value)
+            # 将该节点next节点指向 当前节点的next节点
             tmp.next = cur.next
+            # 将当前节点的 next指向新节点
             cur.next = tmp
 
-    def search(search, value):
+    def search(self, value):
         cur = self.__node
         while cur:
             if cur.value == value:
@@ -89,14 +92,23 @@ class SingleLink():
                 # 如果不是头节点，则前一个节点直接指向当前节点的下个节点
                 else:
                     pre.next = cur.next
-                break
+                return True
             # 先保存当前节点为 前一个节点，将当前节点指向下个节点
             else:
                 pre = cur
                 cur = cur.next
+        return False
 
 
 if __name__ == '__main__':
     link1 = Node(1, Node(3, Node(5, Node(7, Node(10, Node(15))))))
     sl = SingleLink(link1)
     print(sl.lenght())
+    # sl.append(22)
+    # sl.insert_head(0)
+    print(sl.search(5))
+    # sl.remove(5)
+    print(sl.remove(15))
+    sl.insert(5, '***********************')
+    for x in sl.travel():
+        print(x)
