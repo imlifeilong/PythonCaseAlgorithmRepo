@@ -6,13 +6,17 @@ def partaion(data, left, right):
 
     # 遍历整个待定区域  left < 待定区域 < more
     while left < more:
+        # data[right] 是选择的那个比较项
+        # 如果数 小于 比较项，小于区向右移动一位
         if data[left] < data[right]:
             less += 1
             data[left], data[less] = data[less], data[left]
             left += 1
+        # 如果数 大于 比较项，大于区向左移动一位
         elif data[left] > data[right]:
             more -= 1
             data[left], data[more] = data[more], data[left]
+        # 如果等于比较项 直接跳过
         else:
             left += 1
     # 整个列表分隔完后，此时left已经来到大区域的第一个位置（等于区 < left 大于区域），和末尾值交换（末尾值是分隔值）
@@ -41,5 +45,5 @@ def sort(data, left, right):
 
 if __name__ == '__main__':
     a = [5, 3, 4, 2, 6, 1, 1, 7, 8, 5, 9, 5, 5, 6, 5]
-    a = [-1, -1, 0, -3, -99]
+    a = [-1, -1, 0, -3, -99, 9, 11, 2, 5, 0]
     print(sort(a, 0, len(a)-1))
