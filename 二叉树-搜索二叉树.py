@@ -80,6 +80,16 @@ class BinarySearchTree():
 
                 tree = tree.right
 
+    def search(self, tree, value):
+    	while tree:
+    		if tree.root < value:
+    			tree = tree.right
+    		elif tree.root > value:
+    			tree = tree.left
+    		else:
+    			return tree.root
+
+
 
 if __name__ == '__main__':
     '''
@@ -96,3 +106,4 @@ if __name__ == '__main__':
     ct = Node('4',Node('2',Node('1'),Node('3')),Node('5',right=Node('7',Node('6'))))
     tt = BinarySearchTree()
     print(tt.is_binary_search(ct))
+    print(tt.search(ct, '3'))
