@@ -46,9 +46,8 @@ def heapsort(data):
     # 创建大根堆
     for i in range(size):
         heap_insert(data, i)
-    # 将堆中最后一个与堆顶交换，堆的长度减小一位
+
     size -= 1
-    
     # 然后再调整堆为大根堆
     while size > 0:
         data[0], data[size] = data[size], data[0]
