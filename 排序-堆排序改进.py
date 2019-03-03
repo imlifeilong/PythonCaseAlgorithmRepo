@@ -16,10 +16,11 @@
 # 将数据插入到已经建好的堆中
 def heap_insert(data, index):
     # 如果当前数据比他的父节点大，则交换，再继续往上，与他的父节点比较
-    root = (index - 1) // 2
+    root = int((index - 1) / 2)
     while data[index] > data[root]:
         data[index], data[root] = data[root], data[index]
         index = root
+        root = int((index - 1) / 2)
 
 # 大根堆中一个数变小后，往下沉
 def heapify(data, index, length):
@@ -39,25 +40,40 @@ def heapify(data, index, length):
         left = index * 2 + 1
 
 def heapsort(data):
-    size = len(data) - 1
+    size = len(data)
     if not data or size < 2:
         return data
     # 创建大根堆
     for i in range(size):
         heap_insert(data, i)
-    # 将堆中最后一个与堆顶交换，堆的长度减小一位
-    data[0], data[size] = data[size], data[0]
+
     size -= 1
-    
     # 然后再调整堆为大根堆
     while size > 0:
-        heapify(data, 0, size)
         data[0], data[size] = data[size], data[0]
+        heapify(data, 0, size)
         size -= 1
     return data
 
+def random_data():
+    import random
+    res = []
+    for i in range(random.randint(1, 100)):
+        res.append(random.randint(1, 100))
+    return res
+
+
+def compare(src, res):
+    data = sorted(src)
+    if len(data) == len(src):
+        for i in range(len(data)):
+            if data[i] != res[i]:
+                return False
+        return True
+
+
 if __name__ == '__main__':
-    a = [23,4,66,23,4,66,43,14,8,32,43,14,8]
-    res = heapsort(a)
-    print(a)
-    
+    for i in range(10000):
+        src = random_data()
+        if not compare(src, heapsort(src)):
+            print(src)
