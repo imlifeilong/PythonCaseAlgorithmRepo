@@ -9,21 +9,21 @@ import sys
 
 class Node():
     def __init__(self, root=None, left=None, right=None):
-        self.__root = root
-        self.__left = left
-        self.__right = right
+        self.root = root
+        self.left = left
+        self.right = right
 
-    @property
-    def root(self):
-        return self.__root
+    # @property
+    # def root(self):
+    #     return self.__root
 
-    @property
-    def left(self):
-        return self.__left
+    # @property
+    # def left(self):
+    #     return self.__left
 
-    @property
-    def right(self):
-        return self.__right
+    # @property
+    # def right(self):
+    #     return self.__right
 
 class Stack():
     def __init__(self):
@@ -60,7 +60,7 @@ class BinarySearchTree():
         return self._is_binary_search
 
     def _mid_order(self, tree):
-        if not tree:
+        if not tree.root:
             return
 
         while not self.__s.empty() or tree:
@@ -80,15 +80,44 @@ class BinarySearchTree():
 
                 tree = tree.right
 
-    def search(self, tree, value):
-    	while tree:
-    		if tree.root < value:
-    			tree = tree.right
-    		elif tree.root > value:
-    			tree = tree.left
-    		else:
-    			return tree.root
+    def find_min(self, tree):
+        while tree:
+            if tree.left:
+                tree = tree.left
+            else:
+                return tree.root
 
+    def find_max(self, tree):
+        while tree:
+            if tree.right:
+                tree = tree.right
+            else:
+                return tree.root
+
+    def search(self, tree, value):
+        if not tree.root:
+            return
+
+        while tree:
+            if tree.root < value:
+                tree = tree.right
+            elif tree.root > value:
+                tree = tree.left
+            else:
+                return tree.root
+
+    def insert(self, tree, value):
+        '''
+        若插入的值比根节点小，则将其插入根节点的左子树，若比根节点大，则将其插入右子树
+        '''
+        if not tree:
+            tree = Node(value)
+        elif tree.root > value:
+            tree.left = self.insert(tree.left, value)
+        elif tree.root < value:
+            tree.right = self.insert(tree.right, value)
+
+        return tree
 
 
 if __name__ == '__main__':
@@ -105,5 +134,11 @@ if __name__ == '__main__':
     '''
     ct = Node('4',Node('2',Node('1'),Node('3')),Node('5',right=Node('7',Node('6'))))
     tt = BinarySearchTree()
-    print(tt.is_binary_search(ct))
-    print(tt.search(ct, '3'))
+    ct = tt.insert(ct, '8')
+    print(ct)
+    print(tt.find_max(ct))
+    # ct = Node()
+    # print(tt.is_binary_search(ct))
+    # print(tt.search(ct, '3'))
+    # print(tt.find_max(ct))
+    # print(tt.find_min(ct))
