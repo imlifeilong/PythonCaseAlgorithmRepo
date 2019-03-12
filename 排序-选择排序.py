@@ -14,8 +14,7 @@ def select(alist):
         # 再扫描剩下的元素，和最小点比较
         for j in range(i+1, alen):
             # 如果小于最小点，则选择该点位置为最小点
-            if alist[j] < alist[_min]:
-                _min = j
+            _min = j if alist[j] < alist[_min] else _min
         
         # 将最小点位置放到有序序列的末尾
         alist[i], alist[_min] = alist[_min], alist[i]
