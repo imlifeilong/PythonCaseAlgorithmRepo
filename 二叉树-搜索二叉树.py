@@ -85,14 +85,14 @@ class BinarySearchTree():
             if tree.left:
                 tree = tree.left
             else:
-                return tree.root
+                return tree
 
     def find_max(self, tree):
         while tree:
             if tree.right:
                 tree = tree.right
             else:
-                return tree.root
+                return tree
 
     def search(self, tree, value):
         if not tree.root:
@@ -112,12 +112,59 @@ class BinarySearchTree():
         '''
         if not tree:
             tree = Node(value)
+
         elif tree.root > value:
             tree.left = self.insert(tree.left, value)
         elif tree.root < value:
             tree.right = self.insert(tree.right, value)
 
         return tree
+
+    def delete(self, tree, value):
+        if not tree:
+            return
+
+        if tree.root > value:
+            tree.left = self.delete(tree.left, value)
+        elif tree.root < value:
+            tree.right = self.delete(tree.right, value)
+        else:
+            if tree.left and tree.right:
+                # 左右子树都有，找到右子树最小节点
+                tmp = self.find_min(tree.right)
+                tree.root = tmp.root
+                # 再把右子树的最小节点删除
+                tree.right = self.delete(tree.right, tmp.root)
+            
+            elif not tree.right and not tree.left:
+                # 左右子树都为空，直接删掉
+                tree = None
+            elif not tree.right:
+                # 只有左子树，当前节点指向左子树
+                tree = tree.left
+            elif not tree.left:
+                # 只有右子树，当前节点指向右子树
+                tree = tree.right
+
+        return tree
+
+
+def printTree(root):
+    if not root:
+        return
+    print("Binary Tree: ")
+    printInOrder(root, 0, 'H', 10)
+
+def printInOrder(root, height, preStr, length):
+    if not root:
+        return
+    printInOrder(root.right, height+1, 'v', length)
+    string = preStr + root.root + preStr
+    leftLen = (length - len(string)) // 2
+    rightLen = length - len(string)- leftLen
+    res = " "*leftLen + string + " "*rightLen
+    print(" "*height*length + res)
+    printInOrder(root.left, height+1, '^', length)
 
 
 if __name__ == '__main__':
@@ -134,9 +181,21 @@ if __name__ == '__main__':
     '''
     ct = Node('4',Node('2',Node('1'),Node('3')),Node('5',right=Node('7',Node('6'))))
     tt = BinarySearchTree()
+    # ct = tt.insert(ct, '10')
+    ct = tt.insert(ct, '9')
     ct = tt.insert(ct, '8')
-    print(ct)
-    print(tt.find_max(ct))
+    # ct = tt.insert(ct, '-1')
+    ct = tt.delete(ct, '5')
+    ct = tt.delete(ct, '7')
+    ct = tt.delete(ct, '4')
+    ct = tt.insert(ct, '5')
+    ct = tt.insert(ct, '7')
+    ct = tt.delete(ct, '6')
+    ct = tt.insert(ct, '6')
+    # ct = tt.insert(ct, '4')
+    printTree(ct)
+    # print(ct)
+    # print(tt.find_max(ct))
     # ct = Node()
     # print(tt.is_binary_search(ct))
     # print(tt.search(ct, '3'))
