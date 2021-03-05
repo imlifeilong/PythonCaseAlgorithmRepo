@@ -11,6 +11,7 @@ class Solution:
         self.dfs([])
 
         print(self.result)
+        return self.result
 
     def dfs(self, tmp):
         if len(tmp) == len(self.nums):
@@ -22,7 +23,7 @@ class Solution:
             if self.flags[i] == 1:
                 continue
 
-            print(i, self.flags)
+            # print(i, self.flags)
             # 当前元素和上一个元素相同，并且上一个元素没有被标记
             if i > 0 and self.nums[i] == self.nums[i - 1] and self.flags[i - 1] == 0:
                 continue
@@ -35,6 +36,6 @@ class Solution:
 
 
 if __name__ == '__main__':
-    nums = [1, 1, 3]
+    nums = [1, 1, 3, 2]
     s = Solution()
     s.subsets(nums)
