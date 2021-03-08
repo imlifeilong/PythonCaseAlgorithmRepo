@@ -27,6 +27,7 @@ class Solution:
         self.dfs(1, n, k)
 
         print(self.result)
+        return self.result
 
     def dfs(self, index, n, k):
         if len(self.tmp) == k:
@@ -34,12 +35,9 @@ class Solution:
             return
 
         for i in range(index, n + 1):
-
             self.tmp.append(i)
-            print(i, index, self.tmp)
             self.dfs(i + 1, n, k)
             self.tmp.pop()
-        print('循环结束')
 
 
 if __name__ == '__main__':

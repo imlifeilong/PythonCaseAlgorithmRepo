@@ -8,10 +8,11 @@
 平均查找长度 比较次数/序列长度
 '''
 
-def bsearch(alist,item):
+
+def bsearch(alist, item):
     low = 0
     high = len(alist) - 1
-    
+
     while low <= high:
         mid = (low + high) // 2
         if alist[mid] > item:
@@ -22,7 +23,7 @@ def bsearch(alist,item):
             return mid
     return
 
-    
+
 if __name__ == "__main__":
-    alist = [2,5,12,15,26,35,66]
-    print(bsearch(alist,3))
+    alist = [2, 5, 12, 15, 26, 35, 66]
+    print(bsearch(alist, 3))
