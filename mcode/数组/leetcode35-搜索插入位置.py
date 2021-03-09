@@ -27,6 +27,9 @@ from typing import List
 
 class Solution:
     def searchInsert(self, nums: List[int], target: int) -> int:
+        '''
+            遍历查找，时间复杂度O(n) 空间复杂度O(1)
+        '''
         length = len(nums)
         for i in range(length):
             if target <= nums[i]:
@@ -34,10 +37,12 @@ class Solution:
         return length
 
     def searchB(self, nums: List[int], target: int) -> int:
-        '''二分查找'''
+        '''
+        二分查找，时间复杂度O(logn) 空间复杂度O(1)
+        '''
         left = 0
         right = len(nums) - 1
-
+        # left <= right 表示target在[left, right]里面有效，因为right=len(num)-1
         while left <= right:
             mid = (right + left) // 2
 
@@ -50,12 +55,30 @@ class Solution:
 
         return right + 1
 
+    def searchB1(self, nums: List[int], target: int) -> int:
+        '''二分查找'''
+        left = 0
+        right = len(nums)
+        # 左闭右开 [left, right)
+        while left < right:
+            mid = (left + right) // 2
+            if nums[mid] > target:
+                right = mid
+            elif nums[mid] < target:
+
+                left = mid + 1
+            else:
+                return mid
+
+        return right
+
 
 if __name__ == '__main__':
-    target = 5
+    target = 6
     data = [1, 3, 5, 6]
     s = Solution()
     index = s.searchInsert(data, target)
     print(index)
     ind = s.searchB(data, target)
-    print(ind)
+    ind1 = s.searchB1(data, target)
+    print(ind, ind1)
