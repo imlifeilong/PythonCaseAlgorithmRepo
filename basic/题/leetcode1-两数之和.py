@@ -1,4 +1,6 @@
 from typing import List
+
+
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         mapping = {}
@@ -7,8 +9,10 @@ class Solution:
             if j in mapping:
                 return i, mapping[j]
             mapping[j] = i
+            print(mapping)
+
 
 if __name__ == '__main__':
     st = '[][]'
     s = Solution()
-    print(s.twoSum([3,2,4], 6))
+    print(s.twoSum([3, 2, 4], 6))

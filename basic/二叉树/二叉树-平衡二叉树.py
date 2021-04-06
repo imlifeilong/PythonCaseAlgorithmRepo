@@ -1,11 +1,14 @@
 '''
-平衡二叉树
+平衡二叉树 为了解决二叉查找树退化成链表
     0、高度是☞从叶节点（高度为1）向上逐层累加，深度是指从根节点（深度为1），向下逐层累加
     1、每个节点的左子树高度和右子树高度相差不大于1
     2、空树也是平衡二叉树
+
+红黑树 是解决平衡树插入、删除等操作时避免频繁调整
 '''
 
-class Node():
+
+class Node(object):
     def __init__(self, root=None, left=None, right=None):
         self.__root = root
         self.__left = left
@@ -23,7 +26,8 @@ class Node():
     def right(self):
         return self.__right
 
-class BalanceTree():
+
+class BalanceTree(object):
     def __init__(self):
         self._is_balabce = True
 
@@ -43,11 +47,12 @@ class BalanceTree():
         # 如果左右子树高度差大于1，则不是平衡树
         if abs(left_level - right_level) > 1:
             self._is_balabce = False
-        
+
         # 左右子树较大的高度，再加1就是当前节点的高度
         current_node_level = max(left_level, right_level) + 1
-        
+
         return current_node_level
+
 
 if __name__ == '__main__':
     '''
@@ -62,6 +67,6 @@ if __name__ == '__main__':
     Node('A',Node('B',Node('D'),Node('E')),Node('C',right=Node('F',Node('G'))))
     '''
     # ct = Node('A',Node('B',Node('D'),Node('E')),Node('C',right=Node('F')))
-    ct = Node('A',Node('B',Node('D'),Node('E')),Node('C',right=Node('F',Node('G'))))
+    ct = Node('A', Node('B', Node('D'), Node('E')), Node('C', right=Node('F', Node('G'))))
     tt = BalanceTree()
     print(tt.is_balabce(ct))
