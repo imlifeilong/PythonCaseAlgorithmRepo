@@ -100,14 +100,16 @@ class RobotWalk(object):
                 dp[row][col] = dp[row + 1][col - 1] + dp[row - 1][col - 1]
             # 最末行依赖左上元素
             dp[pos][col] = dp[pos - 1][col - 1]
-
+        for r in dp:
+            print(r)
+        print(start, steps)
         return dp[start][steps]
 
 
 if __name__ == '__main__':
     rw = RobotWalk()
     # [ 位置数, 剩余步数, 当前位置, 目标位置]
-    x = [11, 8, 4, 6]
+    x = [6, 5, 1, 4]
     a = rw.ways_a(*x)
     print(a)
     b = rw.ways_b(*x)
