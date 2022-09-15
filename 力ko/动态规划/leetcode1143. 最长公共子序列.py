@@ -24,7 +24,7 @@ class Solution:
         m = len(text1)
         n = len(text2)
         dp = [[0] * (n + 1) for _ in range(m + 1)]
-        return self.process1(text1, text2, dp)
+        return self.process1(text1, text2, m, n, dp)
 
     def process1(self, s1, s2, m, n, dp):
         for i in range(1, m + 1):
@@ -38,8 +38,8 @@ class Solution:
 
 
 if __name__ == '__main__':
-    s1 = 'abcde'
-    s2 = 'ace'
+    s1 = 'ssssabcdes'
+    s2 = 'sacesss'
     s = Solution()
     res = s.longestCommonSubsequence(s1, s2)
     res1 = s.longestCommonSubsequence1(s1, s2)
