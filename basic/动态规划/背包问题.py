@@ -22,9 +22,18 @@ class Solution:
         self.n = n
         self.w = w
         self.v = v
-        return self.process(0, m)
+        self.m = m
+        res = self.process(0, m)
+        print(res)
+        return self.process_dp()
 
-    def process(self, index, m, ):
+    def process(self, index, m):
+        '''
+        第index个货物，装进背包后，背包的价值
+        :param index: 货物的编号
+        :param m: 背包容量
+        :return:
+        '''
         # 背包承重为0时，不能放东西
         if index == self.n or m == 0:
             return 0
@@ -38,12 +47,40 @@ class Solution:
             p2 = self.process(index + 1, m - self.w[index]) + self.v[index]
             return max(p1, p2)
 
-        
+    def process_dp(self):
+        dp = [[0] * (self.m + 1) for _ in range(self.n + 1)]
+        # dp[i][j] 表示 前i件物品放入容量为j的背包的最大价值
+        # 依赖i+1 所以从下往上填表， 再从左往右
+
+        for i in range(self.n - 1, -1, -1):
+            for j in range(1, self.m):
+                # 当前货物的重量大于背包容量，装不上，只能去下个位置
+                if self.w[i] > j:
+                    dp[i][j] = dp[i + 1][j]
+                else:
+                    # 能装上货物， 装上当前货物后，再去下个位置，背包容量减去当前货物的重量
+                    p1 = dp[i + 1][j - self.w[i]] + self.v[i]
+                    # 能装上货物，但是不装，去下个位置
+                    p2 = dp[i + 1][j]
+                    dp[i][j] = max(p1, p2)
+
+        for row in dp:
+            print(row)
+
+        return dp[0][self.m - 1]
+
+
 if __name__ == '__main__':
     n = 5
     m = 10
     w = [2, 2, 6, 5, 4]
     v = [6, 3, 5, 4, 6]
+
+    n = 7
+    m = 15
+    w = [3, 2, 4, 7, 3, 1, 7]
+    v = [5, 6, 3, 19, 12, 4, 2]
+
     s = Solution()
     res = s.tbag(n, m, w, v)
     print(res)
