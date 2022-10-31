@@ -53,7 +53,8 @@ class Solution:
         # 依赖i+1 所以从下往上填表， 再从左往右
 
         for i in range(self.n - 1, -1, -1):
-            for j in range(1, self.m):
+            # 背包容量从0开始，直到背包容量self.m被占满时
+            for j in range(self.m+1):
                 # 当前货物的重量大于背包容量，装不上，只能去下个位置
                 if self.w[i] > j:
                     dp[i][j] = dp[i + 1][j]
@@ -64,10 +65,12 @@ class Solution:
                     p2 = dp[i + 1][j]
                     dp[i][j] = max(p1, p2)
 
+        print([i for i in range(len(dp[0]))])
         for row in dp:
+
             print(row)
 
-        return dp[0][self.m - 1]
+        return dp[0][self.m]
 
 
 if __name__ == '__main__':
