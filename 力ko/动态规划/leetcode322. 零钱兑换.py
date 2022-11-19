@@ -18,12 +18,15 @@ class Solution:
         # 不需要取硬币了
         if amount == 0:
             return 0
-        # 返回超级大的数据，说明已经取不到硬币了
+        # 当用完最后一块硬币时，还没兑换完，需要舍弃，返回无穷大（因为要取最小值）
         if index == len(coins):
             return float('inf')
+        # 当前硬币比目标值大，换下个硬币
         if coins[index] > amount:
             return self.process(index + 1, coins, amount)
+        # 使用当前硬币，还可以选择当前硬币，目标值减去当前硬币
         p2 = self.process(index, coins, amount - coins[index]) + 1
+        # 不适用当前硬币，去换下个硬币
         p1 = self.process(index + 1, coins, amount)
         return min(p1, p2)
 
@@ -32,8 +35,8 @@ if __name__ == '__main__':
     s = Solution()
     coins = [1, 2, 5]
     amount = 11
-    coins = [2]
-    amount = 3
-    coins = [1]
-    amount = 0
+    # coins = [2]
+    # amount = 3
+    # coins = [1]
+    # amount = 0
     s.coinChange(coins, amount)
