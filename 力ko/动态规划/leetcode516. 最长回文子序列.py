@@ -3,6 +3,7 @@ class Solution:
         return self.process(s, 0, len(s) - 1)
 
     def process(self, s, m, n):
+        print(m, n)
         if m < 0 or n > len(s) or m > n:
             return 0
         if m == n:
@@ -13,7 +14,7 @@ class Solution:
 
     def longestPalindromeSubseq1(self, s: str) -> int:
         n = len(s)
-        cache = [[0] * (n + 1) for _ in range(n + 1)]
+        cache = [[None] * (n + 1) for _ in range(n + 1)]
         return self.process1(s, 0, len(s) - 1, cache)
 
     def process1(self, s, m, n, cache):
@@ -25,7 +26,7 @@ class Solution:
         if m == n:
             return 1
 
-        if cache[m][n] != 0:
+        if cache[m][n]:
             return cache[m][n]
         if s[m] == s[n]:
             result = self.process1(s, m + 1, n - 1, cache) + 2
@@ -58,11 +59,11 @@ class Solution:
 if __name__ == '__main__':
     s = Solution()
 
-    data = "euazbipzncptldueeuechubrcourfpftcebikrxhybkymimgvldiwqvkszfycvqyvtiwfckexmowcxztkfyzqovbtmzpxojfofbvwnncajvrvdbvjhcrameamcfmcoxryjukhpljwszknhiypvyskmsujkuggpztltpgoczafmfelahqwjbhxtjmebnymdyxoeodqmvkxittxjnlltmoobsgzdfhismogqfpfhvqnxeuosjqqalvwhsidgiavcatjjgeztrjuoixxxoznklcxolgpuktirmduxdywwlbikaqkqajzbsjvdgjcnbtfksqhquiwnwflkldgdrqrnwmshdpykicozfowmumzeuznolmgjlltypyufpzjpuvucmesnnrwppheizkapovoloneaxpfinaontwtdqsdvzmqlgkdxlbeguackbdkftzbnynmcejtwudocemcfnuzbttcoew"
+    data = "bbbab"
     # data = 'abbcd'
     # res = s.longestPalindromeSubseq(data)
     # print(res)
-    # res1 = s.longestPalindromeSubseq1(data)
-    # print(res1)
-    res2 = s.longestPalindromeSubseq2(data)
-    print(res2)
+    res1 = s.longestPalindromeSubseq1(data)
+    print(res1)
+    # res2 = s.longestPalindromeSubseq2(data)
+    # print(res2)
