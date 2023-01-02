@@ -14,6 +14,14 @@ class Solution:
     def minPathSum(self, grid: List[List[int]]) -> int:
         res = self.process(0, 0, len(grid), len(grid[0]), grid)
         print(res)
+        x, y = len(grid), len(grid[0])
+        res1 = self.process2(x - 1, y - 1, grid)
+        print(res1)
+        cache = [[None] * (y) for _ in range(x)]
+
+        res2 = self.process_cache(x - 1, y - 1, grid, cache)
+        print(res2)
+        self.process_dp(x, y, grid)
 
     def process(self, i, j, x, y, a):
         """
@@ -34,6 +42,44 @@ class Solution:
         if j == y - 1:
             return self.process(i + 1, j, x, y, a) + a[i][j]
         return min(self.process(i + 1, j, x, y, a), self.process(i, j + 1, x, y, a)) + a[i][j]
+
+    def process2(self, x, y, a):
+        if x == 0 and y == 0:
+            return a[x][y]
+        if x == 0:
+            return self.process2(x, y - 1, a) + a[x][y]
+        if y == 0:
+            return self.process2(x - 1, y, a) + a[x][y]
+        return min(self.process2(x - 1, y, a), self.process2(x, y - 1, a)) + a[x][y]
+
+    def process_cache(self, x, y, a, cache):
+        if cache[x][y]:
+            return cache[x][y]
+        if x == 0 and y == 0:
+            cache[x][y] = a[x][y]
+        elif x == 0:
+            cache[x][y] = self.process_cache(x, y - 1, a, cache) + a[x][y]
+        elif y == 0:
+            cache[x][y] = self.process_cache(x - 1, y, a, cache) + a[x][y]
+        else:
+            cache[x][y] = min(self.process_cache(x - 1, y, a, cache), self.process_cache(x, y - 1, a, cache)) + a[x][y]
+        return cache[x][y]
+
+    def process_dp(self, x, y, a):
+        dp = [[None] * (y) for _ in range(x)]
+
+        for i in range(x):
+            for j in range(y):
+                if i == 0 and j == 0:
+                    dp[i][j] = a[i][j]
+                elif i == 0:
+                    dp[i][j] = dp[i][j - 1] + a[i][j]
+                elif j == 0:
+                    dp[i][j] = dp[i - 1][j] + a[i][j]
+                else:
+                    dp[i][j] = min(dp[i - 1][j], dp[i][j - 1]) + a[i][j]
+
+        print(dp[x - 1][y - 1])
 
 
 if __name__ == '__main__':
