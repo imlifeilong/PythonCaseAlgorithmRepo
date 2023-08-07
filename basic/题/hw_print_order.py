@@ -10,6 +10,8 @@ import sys
 def order_print():
     # string = sys.stdin.readlines()
     string = '1,3,4,9,1,4'
+    string = '1,9,2,1'
+    string = '9,3,5'
     q = Queue()
     string_list = [int(i) for i in string.split(',')]
     # 将元素入队
