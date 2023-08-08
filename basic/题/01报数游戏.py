@@ -45,11 +45,12 @@ def baoshu2(k, nums):
         else:
             nums.append(n)  # 不符合，入队继续报数
             index += 1
+    nums.sort()
     print(nums)
 
 
-k = 4
-n = list(range(1, 10))
-print(n)
-baoshu(k, n)
-# baoshu2(k, n)
+k = 3
+n = list(range(1, 101))
+# print(n)
+# baoshu(k, n)
+baoshu2(k, n)
