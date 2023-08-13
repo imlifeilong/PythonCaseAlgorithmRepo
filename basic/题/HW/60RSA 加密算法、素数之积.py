@@ -19,6 +19,7 @@ def main(num):
     return -1, -1
 
 
+
 def result(num):
     factors = set()  # 使用集合进行去重
     tmp = num  # 用tmp保存num的副本，方便后面进行计算
@@ -43,13 +44,16 @@ def result(num):
 
 
 n = 15151511
-res = main(n)
+# res = main(n)
+# #
+# print(*res)
 #
-print(*res)
+# import time
+#
+# st = time.time()
+# res = result(n)
+# print(res)
+# print(time.time() - st)
+n = 100
+result(n)
 
-import time
-
-st = time.time()
-res = result(n)
-print(res)
-print(time.time() - st)
