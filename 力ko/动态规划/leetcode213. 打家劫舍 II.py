@@ -9,6 +9,13 @@ from typing import List
 
 class Solution:
     def rob(self, nums: List[int]) -> int:
+        '''
+        意味着第一个房子和最后一个房子中 只能选择一个偷窃，
+        因此可以把此 环状排列房间 问题约化为两个 单排排列房间 子问题
+        1、在不偷窃第一个房子的情况下（即 nums[1:]），最大金额是 p1
+        2、在不偷窃最后一个房子的情况下（即 nums[:n−1]），最大金额是 p2
+        为以上两种情况的较大值
+        '''
         p1 = self.f(0, nums)
         p2 = self.g(1, nums)
         res = max(p1, p2)
@@ -43,5 +50,6 @@ class Solution:
 
 if __name__ == '__main__':
     s = Solution()
-    nums = [1, 2, 3]
+    nums = [1, 2, 3,1]
+    # nums = [2, 3, 1]
     s.rob(nums)
