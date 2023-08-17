@@ -32,4 +32,5 @@ def main(s):
 
 
 s = '3[m2[c]]'
+s = "2[abc]3[cd]ef"
 main(s)
