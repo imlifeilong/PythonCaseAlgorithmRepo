@@ -179,7 +179,6 @@
 
 import sys
 
-
 #
 # def find_indexes(input_string):
 #     if len(input_string) < 5 or len(input_string) > 30:
@@ -338,22 +337,113 @@ import sys
 # for item in data:
 #     print(item)
 
+#
+# class TreeNode:
+#     def __init__(self, key):
+#         self.left = None
+#         self.right = None
+#         self.val = key
+#
+#
+# def insert_complete_tree(arr, root, i, n):
+#     if i < n:
+#         temp = TreeNode(arr[i])
+#         root = temp
+#         root.left = insert_complete_tree(arr, root.left, 2 * i + 1, n)
+#         root.right = insert_complete_tree(arr, root.right, 2 * i + 2, n)
+#     return root
+#
+#
+# arr = ['1', '2', '3', '4', '5', '6', '7']
+# root = insert_complete_tree(arr, None, 0, len(arr))
+#
+# print(root)
 
-class TreeNode:
-    def __init__(self, key):
-        self.left = None
-        self.right = None
-        self.val = key
+# num_of_dice, num_of_sides = 10, 3
+# dice_strings = '2 4 7'.split()
+#
+# rolls = [0] * num_of_dice
+# k = 1
+#
+# for i in range(num_of_sides):
+#     rolls[int(dice_strings[i]) - 1] = 1
+#
+# left = 0
+# right = 0
+# count = 0
+#
+# result = 0
+# while right < num_of_dice:
+#     while right < num_of_dice and count <= k:
+#         if rolls[right] == 1:
+#             count += 1
+#         right += 1
+#
+#         if count <= k:
+#             result = max(right - left, result)
+#
+#     while left <= right and count > k:
+#         if rolls[left] == 1:
+#             count -= 1
+#         left += 1
+#
+# print(result)
+#
+#
+# def longestOnes(A, K):
+#     N = len(A)
+#     res = 0
+#     left, right = 0, 0
+#     zeros = 0
+#     while right < N:
+#         if A[right] == 0:
+#             zeros += 1
+#         while zeros > K:
+#             if A[left] == 0:
+#                 zeros -= 1
+#             left += 1
+#         res = max(res, right - left + 1)
+#         right += 1
+#     return res
+#
+#
+# a = [0, 1, 0, 1, 0, 0, 1, 0, 0, 0]
+# a = [1, 0, 1, 0, 1, 1, 0, 1, 1, 1]
+# k = 1
+# res = longestOnes(a, k)
+# print(res)
 
-def insert_complete_tree(arr, root, i, n):
-    if i < n:
-        temp = TreeNode(arr[i])
-        root = temp
-        root.left = insert_complete_tree(arr, root.left, 2 * i + 1, n)
-        root.right = insert_complete_tree(arr, root.right, 2 * i + 2, n)
-    return root
+import collections
 
-arr = ['1', '2', '3', '4', '5', '6', '7']
-root = insert_complete_tree(arr, None, 0, len(arr))
 
-print(root)
+def function(numList, nums) -> int:
+    n = len(numList)
+    counter = collections.Counter()
+    left = 0
+    right = 0
+    ans = 0
+    pos = []
+    while right < n:
+        counter[numList[right]] += 1
+        while counter[-nums] > 0 or right - left + 1 - counter[nums] > 1:
+            counter[numList[left]] -= 1
+            left += 1
+        if ans < right - left + 1:
+            ans = right - left + 1
+            for i, x in enumerate(numList[left:right + 1]):
+                if x == 0:
+                    pos = [left + i]
+        elif ans == right - left + 1:
+            for i, x in enumerate(numList[left:right + 1]):
+                if x == 0:
+                    pos.append(left + i)
+        right += 1
+    mid = (n - 1) // 2
+    pos.sort(key=lambda x: abs(x - mid))
+    return pos[0]
+
+
+numsList = [-1, 0, 1, 1, 1, 0, 1, -1, 1]
+# numsList = [0,0,0,0,1,0,0,0,0,1,0]
+
+print(function(numsList, 1))
