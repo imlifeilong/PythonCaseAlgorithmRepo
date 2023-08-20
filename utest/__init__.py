@@ -179,6 +179,7 @@
 
 import sys
 
+
 #
 # def find_indexes(input_string):
 #     if len(input_string) < 5 or len(input_string) > 30:
@@ -413,37 +414,105 @@ import sys
 # res = longestOnes(a, k)
 # print(res)
 
-import collections
+# import collections
+#
+#
+# def function(numList, nums) -> int:
+#     n = len(numList)
+#     counter = collections.Counter()
+#     left = 0
+#     right = 0
+#     ans = 0
+#     pos = []
+#     while right < n:
+#         counter[numList[right]] += 1
+#         while counter[-nums] > 0 or right - left + 1 - counter[nums] > 1:
+#             counter[numList[left]] -= 1
+#             left += 1
+#         if ans < right - left + 1:
+#             ans = right - left + 1
+#             for i, x in enumerate(numList[left:right + 1]):
+#                 if x == 0:
+#                     pos = [left + i]
+#         elif ans == right - left + 1:
+#             for i, x in enumerate(numList[left:right + 1]):
+#                 if x == 0:
+#                     pos.append(left + i)
+#         right += 1
+#     mid = (n - 1) // 2
+#     pos.sort(key=lambda x: abs(x - mid))
+#     return pos[0]
+#
+#
+# numsList = [-1, 0, 1, 1, 1, 0, 1, -1, 1]
+# # numsList = [0,0,0,0,1,0,0,0,0,1,0]
+#
+# print(function(numsList, 1))
 
 
-def function(numList, nums) -> int:
-    n = len(numList)
-    counter = collections.Counter()
-    left = 0
-    right = 0
-    ans = 0
-    pos = []
-    while right < n:
-        counter[numList[right]] += 1
-        while counter[-nums] > 0 or right - left + 1 - counter[nums] > 1:
-            counter[numList[left]] -= 1
-            left += 1
-        if ans < right - left + 1:
-            ans = right - left + 1
-            for i, x in enumerate(numList[left:right + 1]):
-                if x == 0:
-                    pos = [left + i]
-        elif ans == right - left + 1:
-            for i, x in enumerate(numList[left:right + 1]):
-                if x == 0:
-                    pos.append(left + i)
-        right += 1
-    mid = (n - 1) // 2
-    pos.sort(key=lambda x: abs(x - mid))
-    return pos[0]
+# 算法入口
+def getResult(matrix):
+    row = len(matrix)
+    col = len(matrix[0])
+
+    # 记录宜居取坐标位置
+    queue = []
+    # 记录可改造区数量
+    need = 0
+
+    for i in range(row):
+        for j in range(col):
+            if matrix[i][j] == "YES":
+                queue.append([i, j])
+            elif matrix[i][j] == "NO":
+                need += 1
+
+    # 如果没有宜居区，则无法改造，直接返回-1
+    if len(queue) == 0:
+        return -1
+    # 如果全是宜居区，则无需改造，直接返回0
+    elif len(queue) == row * col:
+        return 0
+
+    # 记录花费的天数
+    day = 0
+    # 上，下，左，右四个方向的偏移量
+    offsets = ((-1, 0), (1, 0), (0, -1), (0, 1))
+
+    # 图的多源BFS模板
+    while len(queue) > 0 and need > 0:
+        newQueue = []
+
+        for x, y in queue:
+            for offsetX, offsetY in offsets:
+                # 上，下，左，右四个方向扩散
+                newX = x + offsetX
+                newY = y + offsetY
+
+                # 如果新位置没有越界，且为NO，则可以被改造
+                if row > newX >= 0 and col > newY >= 0 and matrix[newX][newY] == "NO":
+                    matrix[newX][newY] = "YES"
+                    newQueue.append([newX, newY])
+                    need -= 1
+
+        day += 1
+        queue = newQueue
+
+    if need == 0:
+        return day
+    else:
+        return -1
 
 
-numsList = [-1, 0, 1, 1, 1, 0, 1, -1, 1]
-# numsList = [0,0,0,0,1,0,0,0,0,1,0]
+# # 输入获取
+# matrix = []
+# while True:
+#     line = input()
+#     if line == "":
+#         print(getResult(matrix))
+#         break
+#     else:
+#         matrix.append(line.split())
 
-print(function(numsList, 1))
+m = [['YES', 'NO', 'NO', 'YES'], ['NO', 'NO', 'YES', 'NO'], ['NO', 'YES', 'NA', 'NA'], ['YES', 'NO', 'NA', 'NO']]
+getResult(m)

@@ -10,9 +10,10 @@ class Handle:
     def run(self, string):
         slen = len(string)
         if slen == 0:
-            print "The string is empty"
+            print ("The string is empty")
+            
         elif slen == 1:
-            print "First unduplicated char is %s" % string
+            print ("First unduplicated char is %s" % string)
             return string
         for i in range(1, slen):
             #获取每个字符的位置
@@ -23,17 +24,20 @@ class Handle:
                 continue
             #不在该字符所在位置到字符尾部中出现，也不在重复字符列表中
             elif char not in self.duplicate:
-                print "First unduplicated char is %s" % char
+                print ("First unduplicated char is %s" % char)
                 return char
 
 
 if __name__ == "__main__":
     str1 = ""
-    #str2 = "adddwabbccdff"
+    str2 = "adddwabbccdff"
     str3 = "a"
+    s = "leetcode"
+    s = "loveleetcode"
+    s = "abaccdeff"
     t = Handle()
-    t.run(str1)
-    #t.run(str2)
-    t.run(str3)
+    # t.run(str1)
+    # t.run(str2)
+    t.run(s)
 
     
