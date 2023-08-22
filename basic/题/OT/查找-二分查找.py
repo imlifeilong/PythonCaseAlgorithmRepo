@@ -13,17 +13,18 @@ def bsearch(alist, item):
     low = 0
     high = len(alist) - 1
 
-    while low <= high:
+    # 左闭右开
+    while low < high:
         mid = (low + high) // 2
         if alist[mid] > item:
-            high = mid - 1
+            high = mid  # 左闭右开的所以是mid
         elif alist[mid] < item:
             low = mid + 1
         else:
             return mid
-    return
+    return -1
 
 
 if __name__ == "__main__":
     alist = [2, 5, 12, 15, 26, 35, 66]
-    print(bsearch(alist, 3))
+    print(bsearch(alist, 5))
