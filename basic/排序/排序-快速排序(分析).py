@@ -24,25 +24,74 @@
 递归到最底部时，数列的大小是零或一，也就是已经排序好了。这个算法一定会结束，因为在每次的迭代（iteration）中，它至少会把一个元素摆到它最后的位置去。
 '''
 
+"""
+[5, 2, 8, 5, 9, 3, 5]
+单路快速排序
+    基准值选为 5
+    小于等于基准值：[2, 3]
+    大于基准值：[8, 9]
+    基准值 5 有三个重复的元素在数组中，但它们被划分到了不同的部分。
+    这会导致每次分区只能减少一个元素的规模，从而导致性能降低。
+    即 基准值左边的值 [2, 3]
+    基准值 右边的值 [5, 9, 5, 8] 和基准值相同的值是分散再右边的
+双路快速排序 将数组分成三部分：小于基准、等于基准和大于基准，其中：
+    小于基准值：[2, 3]
+    等于基准值：[5, 5, 5]
+    大于基准值：[8, 9]
+    将重复的元素集中再一起，能够更好地处理存在重复元素的情况
+
+三路快速排序 三路快速排序使用三个指针，从数组的左端、右端和中间开始分别向中间遍历
+    左指针找到小于基准值的元素，
+    右指针找到大于基准值的元素，
+    而中间指针用于处理等于基准值的元素。
+    遍历过程中，将小于基准值的元素交换到左边，将大于基准值的元素交换到右边，等于基准值的元素则保持在中间
+    less 指向小于基准值的区域的末尾
+    more 指向大于基准值的区域的起始
+    left 用于遍历整个序列
+"""
+
+
+# def swift_1(data, left, right):
+#     '''
+#     选左边为基准数
+#     '''
+#     item = data[left]
+#     index = left + 1
+#     mid = index
+#
+#     while index <= right:
+#         # 当left所指的值 小于基准值时，移动到mid左边
+#         if data[index] < item:
+#             data[index], data[mid] = data[mid], data[index]
+#             mid += 1
+#         index += 1
+#     data[left], data[mid - 1] = data[mid - 1], data[left]
+#     return mid - 1
+
 
 def swift_1(data, left, right):
-    item = data[left]
+    """
+    单路快速排序使用一个基准元素将数组分成两个部分：小于基准的部分和大于基准的部分。
+    """
+    # 选右边值为基准数
+    item = data[right]
     mid = left
-    index = left
-    while index < right:
-        # 当left所指的值 小于基准值时，移动到mid左边
-        print(data[left], item, mid, index, data)
-        if data[index] < item:
-            data[index], data[mid] = data[mid], data[index]
+    while left < right:
+        # 从左往右遍历，当left所指的值小于基准值时，和mid所指的值交换，
+        # mid向右移动一位，保持mid左边的值小于基准值
+        if data[left] < item:
+            data[left], data[mid] = data[mid], data[left]
             mid += 1
-        index += 1
-    data[left], data[mid] = data[mid], data[left]
-    print(data)
+        left += 1
+    # 当扫描完成后，将right所指的数放到mid的位置，此时mid左边的数于，右边数大于等于
+    data[mid], data[right] = data[right], data[mid]
+    return mid
 
 
 def swift_2(data, left, right):
-    # 单路快排
-    # 二路快排 为了解决让数据更平均的分布再基准值两边
+    # 单路快排 可能会在存在大量重复元素时性能下降
+    # 二路快排 分别从数组的左端和右端开始，将数组分成三个部分：小于基准、等于基准和大于基准
+    # 双路快速排序通过减少交换操作，可以在存在重复元素的情况下保持较好的性能
 
     # 最左边的选为基准值，拿出来后，此时left的位置是空的
     item = data[left]
@@ -96,7 +145,7 @@ def swift_3(data, left, right):
     less = left
     more = right
     base = data[right]
-    while left < more:
+    while left <= more:
         if data[left] < base:
             data[left], data[less] = data[less], data[left]
             left += 1
@@ -106,9 +155,10 @@ def swift_3(data, left, right):
             more -= 1
         else:
             left += 1
+    return less, more
 
 
-def quick(alist, left, right):
+def quick1(alist, left, right):
     # 二分数列
     if left < right:
         # 索引 [0,1,2,3,4,5,6]
@@ -116,12 +166,42 @@ def quick(alist, left, right):
         # 因为每次分隔后，mid的位置就排好了，以后都不会变了，所以不参与以后的排序
         # 左闭右开的原则，所以左边的索引范围是 left, mid-1 右边的索引范围是 mid+1, right
         mid = swift_1(alist, left, right)
-        quick(alist, left, mid - 1)
-        quick(alist, mid + 1, right)
+        quick1(alist, left, mid - 1)
+        quick1(alist, mid + 1, right)
+    return alist
+
+
+def quick2(alist, left, right):
+    # 二分数列
+    if left < right:
+        # 索引 [0,1,2,3,4,5,6]
+        # mid=3时，左边的索引范围0-2 右边的索引范围4-6
+        # 因为每次分隔后，mid的位置就排好了，以后都不会变了，所以不参与以后的排序
+        # 左闭右开的原则，所以左边的索引范围是 left, mid-1 右边的索引范围是 mid+1, right
+        mid = swift_2(alist, left, right)
+        quick2(alist, left, mid - 1)
+        quick2(alist, mid + 1, right)
+    return alist
+
+
+def quick3(alist, left, right):
+    # 二分数列
+    if left < right:
+        # 索引 [0,1,2,3,4,5,6]
+        # mid=3时，左边的索引范围0-2 右边的索引范围4-6
+        # 因为每次分隔后，mid的位置就排好了，以后都不会变了，所以不参与以后的排序
+        # 左闭右开的原则，所以左边的索引范围是 left, mid-1 右边的索引范围是 mid+1, right
+        mid = swift_3(alist, left, right)
+        quick3(alist, left, mid[0] - 1)
+        quick3(alist, mid[1] + 1, right)
     return alist
 
 
 if __name__ == "__main__":
-    alist = [23, 4, 66, 23, 4, 66, 43, 14, 8, 32, 43, 14, 8, 32]
-    alist = [5, 4, 2, 6, 1, 8, 9]
-    print(quick(alist, 0, len(alist) - 1))
+    # alist = [23, 4, 66, 23, 4, 66, 43, 14, 8, 32, 43, 14, 8, 32]
+    alist = [5, 4, 2, 6, 1, 8, 9, 5]
+    alist = [5, 2, 8, 5, 9, 3, 5]
+    alist = [3, 1, 5, 2, 8, 5, 9, 3, 5, 1, 2, 3]
+    # print(quick1(alist, 0, len(alist) - 1))
+    print(quick2(alist, 0, len(alist) - 1))
+    # print(quick3(alist, 0, len(alist) - 1))
