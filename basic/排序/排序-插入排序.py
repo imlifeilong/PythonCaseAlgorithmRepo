@@ -15,25 +15,32 @@
 最坏情况是数据逆序，O(N2)
 '''
 
-def insert(alist):
-    alen = len(alist)
-    for i in range(1,alen): #默认第一个数为有序序列
-        index = i #标记要排序的元素位置
-        item = alist[index] #排序的元素
 
-        # 用item在有序序列元素从后往前扫描
-        while index > 0 and alist[index-1] > item:
+def insert_sort(data):
+    length = len(data)
+    # 从1 开始，默认第一个是有序的
+    for i in range(1, length):
+        # i表示 当前要排序的元素的位置
+        item = data[i]
+
+        # index 左边是已经排好序的
+        index = i
+        # 在区间[0,index)上找到一个合适的位置把item插进去
+        # 因为每次是index-1用来比较，所以index>0（而不是index>=0）
+        while index > 0 and data[index - 1] > item:
             # 如果有序序列中的元素比item大，就往后挪一个位置
-            alist[index] = alist[index-1]
-            # 再进行下次比较
+            data[index] = data[index - 1]
+            # 为了更直观的看，此处应该有个置空的操作
+            # data[index - 1] = None
+            # print(data, item)
+            # index向左移一位，再进行下次比较
             index -= 1
-        # 找到自己的位置
-        alist[index] = item
-    return alist
+
+        # 找到一个位置，index左边小于或等于item
+        data[index] = item
+    return data
 
 
 if __name__ == "__main__":
-    alist = [23,4,66,43,14,8,32]
-    print(insert(alist))
-
-    
+    data = [23, 4, 66, 43, 14, 8, 32]
+    print(insert_sort(data))

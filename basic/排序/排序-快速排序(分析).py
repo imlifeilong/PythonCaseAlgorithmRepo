@@ -142,19 +142,29 @@ def swift_3(data, left, right):
     [left, more] 未处理，所以要遍历的区域
     (more, right) 大于base
     """
-    less = left
-    more = right
     base = data[right]
+
+    less = left  # less指向小于区域的下一位
+    more = right  # more指向大于区域的前一位
+    # left
+
+    # 遍历整个未处理的区域
+    # 小于区域 [0, less) 等于区域[less, left) 未处理[left, more] 大于区域(more, right)
     while left <= more:
+
         if data[left] < base:
+            # 未处理的区域中，当前值 小于基准值，则交换到小于区域 less 和 left向右移动
             data[left], data[less] = data[less], data[left]
             left += 1
             less += 1
         elif data[left] > base:
+            # 未处理的区域中，当前值，大于基准值，则交换的大于区域，more向左移动
             data[left], data[more] = data[more], data[left]
             more -= 1
         else:
+            # 如果相等，跳过
             left += 1
+    # 返回小于区域与等于区 和 等于区与大于区域的 边界
     return less, more
 
 

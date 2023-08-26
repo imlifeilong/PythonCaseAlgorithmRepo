@@ -8,22 +8,28 @@
 时间复杂度O(n2)
 '''
 
-def select(alist):
-    alen = len(alist)
-    for i in range(alen):
-        _min = i #选择第一个点为最小点
-        # 再扫描剩下的元素，和最小点比较
-        for j in range(i+1, alen):
-            # 如果小于最小点，则选择该点位置为最小点
-            _min = j if alist[j] < alist[_min] else _min
-        
-        # 将最小点位置放到有序序列的末尾
-        alist[i], alist[_min] = alist[_min], alist[i]
-    return alist
+
+def select_sort(data):
+    length = len(data)
+
+    for i in range(length):
+        # 选择第一个元素为记为最小值，min_index左边是排行顺序的
+        min_index = i
+
+        # 扫描剩下的元素，选取比min_index所指的值小的
+        for j in range(i + 1, length):
+            # 迭代找到最小的值的索引，赋给min_index
+            if data[j] < data[min_index]:
+                min_index = j
+
+        # 找到最小值后，排到顺序的后面
+        data[i], data[min_index] = data[min_index], data[i]
+
+    return data
 
 
 if __name__ == "__main__":
-    alist = [23,4,66,43,14,8,32]
-    print(select(alist))
-
-    
+    data = [5, 3, 2, 6, 1, 7, 8, 4, 5, 1, 9, 5, 5, 6]
+    # data = [5, 3, 2, 6, 1]
+    res = select_sort(data)
+    print(res)

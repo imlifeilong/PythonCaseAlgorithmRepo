@@ -4,31 +4,33 @@
 然后在每个子序列终实现直接插入排序，然后缩小间隔gap，直到gap缩小到1
 '''
 
-def shell(alist):
-    length = len(alist)
+
+def shell_sort(data):
+    length = len(data)
     if length <= 1:
-        return alist
+        return data
 
     # 初始步长
     gap = length // 2
 
     while gap > 0:
         for i in range(gap, length):
-            tmp = alist[i]
+            tmp = data[i]
             j = i
-            # alist[j-gap] 
+
             # 子序列进行插入排序
-            while j >= gap and tmp < alist[j-gap]:
-                alist[j] = alist[j-gap]
+            while j >= gap and tmp < data[j - gap]:
+                data[j] = data[j - gap]
                 j -= gap
-            alist[j] = tmp
+            data[j] = tmp
+
+        # 减小步长
         gap = gap // 2
 
-    return alist
+    return data
+
 
 if __name__ == "__main__":
     alist = [23, 4, 66, 43, 14, 8, 32, 22, 9]
     # alist = [23,]
-    print(shell(alist))
-
-    
+    print(shell_sort(alist))
