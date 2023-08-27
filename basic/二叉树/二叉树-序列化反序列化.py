@@ -36,6 +36,7 @@ class TreeTraverse():
 
     def _rec(self, tree_string):
         def _rec_str(value):
+            print(value)
             key = value.pop(0)
             if key == '#':
                 return None

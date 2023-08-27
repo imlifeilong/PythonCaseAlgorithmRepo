@@ -15,7 +15,7 @@ class Solution:
             for x0, y0 in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
                 x, y = x0 + i, y0 + j
                 if 0 <= x < m and 0 <= y < n and board[x][y] == word[index]:
-                    # 只要右一条路可以走通就可以，所以使用或
+                    # | 使用或操作，是因为 只要右一条路可以走通就可以
                     tmp |= dfs(x, y, index + 1)
             # 回溯，访问之后，恢复
             board[i][j] = tmpc
