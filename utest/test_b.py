@@ -1,127 +1,139 @@
-# # def main(nums, target):
-# #     length = len(nums)
-# #     for i in range(length):
-# #         for j in range(i + 1, length):
-# #             if nums[i] + nums[j] == target:
-# #                 print(i, j)
-# #                 return i, j
-# #
-# #
-# # nums = [2, 7, 11, 15]
-# # target = 9
-# #
-# # nums = [3, 2, 4]
-# # target = 6
-# #
-# # nums = [3, 3]
-# # target = 6
-# #
-# # main(nums, target)
+# class Solution:
+#     def letterCombinations(self, digits):
+#         mapping = {
+#             '2': ['a', 'b', 'c'],
+#             '3': ['d', 'e', 'f'],
+#             '4': ['g', 'h', 'i'],
+#             '5': ['j', 'k', 'l'],
+#             '6': ['m', 'n', 'o'],
+#             '7': ['p', 'q', 'r', 's'],
+#             '8': ['t', 'u', 'v'],
+#             '9': ['w', 'x', 'y', 'z']
+#         }
+#
+#         # def dfs(index):
+#         #     for i in range(index, len(digits)):
+#         #         tmps = mapping[digits[i]]
+#         #         for j in range(len(tmps)):
+#         #             print(tmps[j])
+#         #
+#         # dfs(0)
+#
+#         def dfs(index, tmp):
+#             if index == len(digits):
+#                 print(tmp)
+#                 return
+#                 # for i in range(index, len(digits)):
+#             # print(digits[i])
+#             string = mapping[digits[index]]
+#             for i in range(len(string)):
+#                 tmp.append(string[i])
+#                 # print(string)
+#                 dfs(index + 1, tmp)
+#                 tmp.pop()
+#
+#         dfs(0, [])
 #
 #
-# res = 0
-# target = 0
-# numsSet = set()
+# if __name__ == '__main__':
+#     digits = "234"
+#     s = Solution()
+#     s.letterCombinations(digits)
+# class Solution:
+#     def combine(self, n, k):
+#         def dfs(index, tmp):
+#             # index是递归深度
+#             if len(tmp) == k:
+#                 print(tmp)
+#                 return
+#
+#             for i in range(index, n + 1):
+#                 tmp.append(i)
+#                 dfs(i+1, tmp)
+#                 tmp.pop()
+#
+#         dfs(1, [])
 #
 #
-# def main():
-#     global res, target, numsSet
+# if __name__ == '__main__':
+#     n = 4
+#     k = 2
+#     s = Solution()
+#     s.combine(n, k)
+
+# class Solution:
+#     def permute(self, nums):
 #
-#     nums = list(map(int, input().split()))
-#     k = int(input())
-#     target = int(input())
+#         def dfs(index, tmp):
+#             if index == len(nums):
+#                 print(tmp)
+#                 return
 #
-#     nums.sort()
-#     combine(nums, k, [], 0, 0)
+#             for i in range(len(nums)):
+#                 if nums[i] not in tmp:
+#                     tmp.append(nums[i])
+#                     dfs(index + 1, tmp)
+#                     tmp.pop()
 #
-#     print(res)
-#
-#
-# def combine(nums, n, lst, index, total):
-#     global res, target, numsSet
-#
-#     if n == 0:
-#         if total == target:
-#             numsSet.add(tuple(lst))
-#             res += 1
-#     else:
-#         for i in range(index, len(nums)):
-#             if i > index and nums[i] == nums[i - 1]:
-#                 continue
-#             if total + nums[i] > target:
-#                 break
-#             lst.append(nums[i])
-#             combine(nums, n - 1, lst, i + 1, total + nums[i])
-#             lst.pop()
+#         dfs(0, [])
 #
 #
-# # main()
-#
-#
-# def ks(data, k, target):
-#     tmp = []
-#     res = process(0, 0, data, k, target, tmp)
-#     print(res)
-#
-#
-# def process(index, total, data, k, target, tmp):
-#     """
-#     第index个数的和时total
-#     :param index:
-#     :param total:
-#     :param data:
-#     :param k:
-#     :param target:
-#     :return:
-#     """
-#     # # 当k个数的和为target时，方案数+1
-#     if k == 0 and total == target:
-#         tmp.sort()
-#         print(tmp)
-#         return 1
-#
-#     if index >= len(data) or (k <= 0 and total != target):
-#         return 0
-#
-#     cur = data[index]
-#     print(f'当前值 {cur} 还剩{k - 1}')
-#
-#     # 选择当前值
-#     tmp.append(data[index])
-#     p1 = process(index + 1, total + cur, data, k - 1, target, tmp)
-#     # 回溯
-#     tmp.pop()
-#
-#     # 不选当前值
-#     p2 = process(index + 1, total, data, k, target, tmp)
-#
-#     return p1 + p2
-#
-#
-# data = [int(i) for i in '-1 0 1 2 -1 -4'.split()]
-# k = 3
-# target = 0
-#
-# # data = [int(i) for i in '2 7 11 15'.split()]
-# # k = 2
-# # target = 9
-#
-# ks(data, k, target)
-class A:
-    def test(self):
-        print('A')
+# if __name__ == '__main__':
+#     nums = [1, 2, 3]
+#     s = Solution()
+#     s.permute(nums)
+
+class Solution:
+    def combinationSum(self, candidates, target):
+        # def dfs(index, tmp, t):
+        #     if t < 0:
+        #         return
+        #     if t == 0:
+        #         print(tmp)
+        #         return
+        #
+        #     for i in range(len(candidates)):
+        #         # if candidates[i] not in tmp:
+        #             tmp.append(candidates[i])
+        #             dfs(index + 1, tmp, t - candidates[i])
+        #             tmp.pop()
+
+        def process(index, tmp, t):
+            if t < 0 or index >= len(candidates):
+                return
+            if t == 0:
+                print(tmp)
+                return
+
+            if t - candidates[index] < 0:
+                return process(index + 1, tmp, t)
+            tmp.append(candidates[index])
+            p1 = process(index, tmp, t - candidates[index])
+            tmp.pop()
+            p2 = process(index + 1, tmp, t)
+
+        # process(0, [], target)
+
+        def dfs1(index, tmp, t):
+            if t == 0:
+                print(tmp)
+                return
+
+            for i in range(index, len(candidates)):
+                if t - candidates[i] >= 0:
+                    tmp.append(candidates[i])
+                    dfs1(i, tmp, t - candidates[i])
+                    tmp.pop()
+
+        dfs1(0, [], target)
 
 
-class B:
-    def test(self):
-        print('B')
-
-
-class C(A, B):
-    def __init__(self):
-        super().test()  # 调用A类中的test方法
-        super(C, self).test()  # 调用A类中的test方法
-        super(A, self).test()  # 调用B类中的test方法
-
-
-C()
+if __name__ == '__main__':
+    candidates = [2, 3, 6, 7]
+    target = 7
+    candidates = [2, 3, 5]
+    target = 8
+    # candidates = [2]
+    # target =1
+    s = Solution()
+    s.combinationSum(candidates, target)
