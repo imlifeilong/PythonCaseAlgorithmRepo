@@ -31,10 +31,14 @@ class Solution:
         # 先排序，让重复的数在一块
         self.nums = sorted(nums)
         self.result = []
-        self.flags = [0 for i in self.nums]
+        self.flags = [0 for _ in self.nums]
 
-        self.dfs([])
+        # self.dfs([])
+        #
+        # print(self.result)
+        self.position = []
 
+        self.backtrack([])
         print(self.result)
         return self.result
 
@@ -59,8 +63,28 @@ class Solution:
 
             self.flags[i] = 0
 
+    def backtrack(self, tmp):
+        if len(tmp) == len(self.nums):
+            self.result.append(tmp[:])
+            return
+
+        for i in range(len(self.nums)):
+            print(i)
+            if i in self.position:
+                continue
+            self.position.append(i)
+
+            # if self.nums[i] in tmp:
+            #     continue
+
+            tmp.append(self.nums[i])
+            self.backtrack(tmp)
+            tmp.pop()
+
+            self.position.pop()
+
 
 if __name__ == '__main__':
-    nums = [1, 1, 3, 2]
+    nums = [1, 1, 2]
     s = Solution()
     s.subsets(nums)
