@@ -7,31 +7,31 @@ class Solution:
         self.rows = len(self.board)
         self.cols = len(self.board[0])
 
+        res = self.backtrack()
+        print(res)
+        print(self.board)
+        return self.board
+
+    def backtrack(self):
         for i in range(self.rows):
             for j in range(self.cols):
-                if self.board[i][j] == '.':
-                    self.backtrack(i, j)
+                if self.board[i][j] != '.':
+                    continue
+                for x in range(1, 10):
+                    # 不满足跳过
+                    if not self.isok(i, j, str(x)):
+                        continue
 
-        print(self.board)
+                    self.board[i][j] = str(x)
+                    res = self.backtrack()
+                    if res:
+                        return True
 
-    def backtrack(self, i, j):
-        print(i, j)
-        if (i > 8 or i < 0) or (j > 8 or j < 0):
-            return False
-
-        for x in range(1, 10):
-            # 不满足跳过
-            if not self.isok(i, j, str(x)):
-                continue
-
-            self.board[i][j] = str(x)
-            res = self.backtrack(i + 1, j + 1)
-            if res:
-                return True
-
-            self.board[i][j] = '.'
-
-        return False
+                    self.board[i][j] = '.'
+                # 所有的数字都不符合
+                return False
+        # 找见所有的空格子，并且填充成功
+        return True
 
     def isok(self, row, col, value):
 
