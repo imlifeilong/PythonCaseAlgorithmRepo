@@ -19,10 +19,26 @@ from typing import List
 输出：["a","b","c"]
  
 
-提示：
 
-0 <= digits.length <= 4
-digits[i] 是范围 ['2', '9'] 的一个数字。
+23
+2 -> a b c
+3 -> d e f
+第一层选a 第二层分别可以选 d e f
+第一层选b 第二层分别可以选 d e f
+第一层选c 第二层分别可以选 d e f
+
+
+(a)bc   (d)ef
+        d(e)f
+        de(f)
+
+a(b)c   (d)ef
+        d(e)f
+        de(f)
+        
+ab(c)   (d)ef
+        d(e)f
+        de(f)
 '''
 
 
@@ -37,24 +53,38 @@ class Solution:
         '8': ['t', 'u', 'v'],
         '9': ['w', 'x', 'y', 'z']
     }
-    result = []
 
     def letterCombinations(self, digits: str) -> List[str]:
-        self.dfs(0, digits, [])
+        self.digits = digits
+        self.length = len(self.digits)
+        self.result = []
+        self.backtrack(0, [])
+        print(self.result)
+        # self.dfs(0, digits, [])
         return self.result
 
-    def dfs(self, index, digits, tmp):
-        if index == len(digits):
-            self.result.append(''.join(tmp))
-            return self.result
+    def backtrack(self, h, tmp):
+        # h 表示要递归的层数 也就是最多达到 digits的长度
+        # tmp 记录值的栈
 
-        for c in self.mapping[digits[index]]:
-            # print('------------->', tmp)
-            tmp.append(c)
-            self.dfs(index + 1, digits, tmp)
+        # 终止条件，就是当递归的次数达到 digits的长度时结束
+        if h == self.length:
+            self.result.append(''.join(tmp[:]))
+            return
+            # 遍历之前先找出 数字所代表的所有字母
+        # self.digits[h] h从0开始 表示digits中第h个元素
+        chars = self.mapping[self.digits[h]]
+
+        # 因为每一层要遍历的元素都不一样，所以都需要从0位置开始，进行组合
+        for i in range(len(chars)):
+            tmp.append(chars[i])
+            # 每层每次只添加一个元素 添加完后去下一层进行添加
+            self.backtrack(h + 1, tmp)
             tmp.pop()
 
 
 if __name__ == '__main__':
+    digits = "23"
+    digits = "2"
     s = Solution()
-    print(s.letterCombinations('233'))
+    s.letterCombinations(digits)
