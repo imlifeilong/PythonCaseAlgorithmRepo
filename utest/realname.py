@@ -55,11 +55,18 @@ class FileRenamerApp(QMainWindow):
             target_name = self.target_name_edit.text()
 
             for filename in os.listdir(self.selected_directory):
+                old_path = os.path.join(self.selected_directory, filename)
                 if filename.startswith(file_name):
-                    old_path = os.path.join(self.selected_directory, filename)
-                    new_filename = filename.replace(file_name, target_name)
+
+                    new_filename = filename.replace(" ", "").replace(file_name, target_name)
                     new_path = os.path.join(self.selected_directory, new_filename)
-                    os.rename(old_path, new_path)
+                else:
+                    # 去除空格
+                    new_filename = filename.replace(" ", "")
+                    tmpname = new_filename[:-3].replace('.', '').replace('-', '') + new_filename[-3:]
+                    new_path = os.path.join(self.selected_directory, tmpname)
+
+                os.rename(old_path, new_path)
 
             self.file_name_edit.clear()
             self.target_name_edit.clear()
