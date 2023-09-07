@@ -1,34 +1,33 @@
 class Solution:
     def solveSudoku(self, board):
-        """
-        Do not return anything, modify board in-place instead.
-        """
         self.board = board
         self.rows = len(self.board)
         self.cols = len(self.board[0])
 
         res = self.backtrack()
         print(res)
+
         print(self.board)
         return self.board
 
     def backtrack(self):
         for i in range(self.rows):
             for j in range(self.cols):
+                # 遍历第i行第j列的不是数字的情况下，去试探哪个数字符合条件
                 if self.board[i][j] != '.':
                     continue
                 for x in range(1, 10):
-                    # 不满足跳过
+                    # 分别检测 该数字在行 列 九宫格中是否重复，如果重复了就跳过
                     if not self.isok(i, j, str(x)):
                         continue
 
                     self.board[i][j] = str(x)
-                    res = self.backtrack()
-                    if res:
+                    # 如果 这个数字在这个位置符合条件，就直接返回，返回到上一层后，继续去下一个位置试探
+                    if self.backtrack():
                         return True
 
                     self.board[i][j] = '.'
-                # 所有的数字都不符合
+                # 所有的数字都不符合，就回溯，该位置的值恢复为 . 然后再试其他数字
                 return False
         # 找见所有的空格子，并且填充成功
         return True

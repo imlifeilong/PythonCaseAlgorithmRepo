@@ -90,8 +90,8 @@ def swift_1(data, left, right):
 
 def swift_2(data, left, right):
     # 单路快排 可能会在存在大量重复元素时性能下降
-    # 二路快排 分别从数组的左端和右端开始，将数组分成三个部分：小于基准、等于基准和大于基准
-    # 双路快速排序通过减少交换操作，可以在存在重复元素的情况下保持较好的性能
+    # 二路快排 分别从数组的左端和右端开始，将数组分成两个部分：小于基准、等于或大于基准
+    # 是通过 左右两个指针互相交换来减少交换操作，可以在存在重复元素的情况下保持较好的性能
 
     # 最左边的选为基准值，拿出来后，此时left的位置是空的
     item = data[left]
@@ -102,7 +102,7 @@ def swift_2(data, left, right):
         # 扫的时候要满足left < right 比如 [0,1,2,3,4] 这种数据，如果选第一个数为基准值，
         # 从右往左扫描的时候，直到第一个数也找不到一个数小于基准值的，
         # 不限制的话 right就会继续向左，从而越界，导致错误
-        while left < right and data[right] >= item:
+        while left < right and data[right] > item:
             right -= 1
 
         # 如果left和right未相遇，把找到的那个小值，交换到基准值的位置，
@@ -136,7 +136,7 @@ def swift_2(data, left, right):
 
 def swift_3(data, left, right):
     """
-    三路快排
+    三路快排 将数组分为三个区 小于区 等于区 大于区 每次等于区域拍好之后，不会再参与下次排序
     [0, less) 小于 base
     [less, left) 等于 base
     [left, more] 未处理，所以要遍历的区域
@@ -211,7 +211,8 @@ if __name__ == "__main__":
     # alist = [23, 4, 66, 23, 4, 66, 43, 14, 8, 32, 43, 14, 8, 32]
     alist = [5, 4, 2, 6, 1, 8, 9, 5]
     alist = [5, 2, 8, 5, 9, 3, 5]
-    alist = [3, 1, 5, 2, 8, 5, 9, 3, 5, 1, 2, 3]
+    alist = [5, 1, 3, 2, 5, 5, 2, 1, 3, 8, 5]
+    # alist = [3, 1, 5, 2, 8, 5, 9, 3, 5, 1, 2, 3]
     # print(quick1(alist, 0, len(alist) - 1))
     print(quick2(alist, 0, len(alist) - 1))
     # print(quick3(alist, 0, len(alist) - 1))
