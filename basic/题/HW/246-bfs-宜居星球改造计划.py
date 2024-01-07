@@ -37,6 +37,8 @@ def main(data):
 
                 # 改造过的标记一下
                 data[x][y] = 'YES'
+
+                # 打印看下改造过程
                 for row in data:
                     print(row)
 
