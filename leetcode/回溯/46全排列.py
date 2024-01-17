@@ -88,5 +88,9 @@ class Solution:
 
 if __name__ == '__main__':
     nums = [1, 2, 3]
+    nums = ['a', 'b', 'ab']
+    nums.sort()
     s = Solution()
-    s.permute(nums)
+    res = s.permute(nums)
+    for row in res:
+        print(''.join(row))

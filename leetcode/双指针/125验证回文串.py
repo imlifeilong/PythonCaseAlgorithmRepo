@@ -16,11 +16,14 @@
 
 class Solution:
     def isPalindrome(self, s: str) -> bool:
-        tmp = [x.lower() for x in s if x.isalpha()]
-        print(tmp)
+        # 去掉非字母数字字符
+        tmp = [x.lower() for x in s if x.isalnum()]
 
         left = 0
         right = len(tmp) - 1
+        # 如果字符长度时奇数，不需要比较中间位置
+        # 如果字符长度时偶数，没有中间位置
+        # 所以使用<进行比较
         while left < right:
             if tmp[left] == tmp[right]:
                 left += 1
@@ -32,9 +35,9 @@ class Solution:
 
 
 if __name__ == '__main__':
-    s = "A man, a plan, a canal: Panama"
-    s = "race a car"
-    s = " "
+    s = "1A man, a plan, a canal: Panama1"
+    s = "raca a car"
+    # s = " "
     so = Solution()
     res = so.isPalindrome(s)
     print(res)
