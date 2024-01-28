@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-
 """
 工厂模式是一种创建型设计模式，其目的是提供一个接口，让子类决定实例化哪个类。
 它隐藏了对象的具体创建过程，使得客户端代码不需要知道实际创建的类。
@@ -32,6 +30,8 @@ from abc import ABC, abstractmethod
 可能需要大量的工厂类：随着产品类型的增加，可能需要创建大量的工厂类，增加了系统的复杂性。
 
 """
+
+from abc import ABC, abstractmethod
 
 
 # 简单工厂模式
