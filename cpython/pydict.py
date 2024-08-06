@@ -34,17 +34,8 @@ class PyDictObject(PyObject):
     ]
 
 
-def pydict():
-    d = {"name": "abc", "a": "a", "c": "c"}
-    for i in range(10):
-        d[str(i)] = str(i)
-
-    print(d)
-    d = {
-        'name': 'abc', 'age': 1, 'c': 'c', '0': '0', '1': '1',
-        # '2': '2',
-        # '3': '3', '4': '4', '5': '5', '6': '6', '7': '7', '8': '8', '9': '9'
-    }
+def pydict(d):
+    print(len(d), d)
     pydict_obj = PyDictObject.from_address(id(d))
     print("ma_used", pydict_obj.ma_used)
     print("ma_version_tag", pydict_obj.ma_version_tag)
@@ -60,19 +51,51 @@ def pydict():
     # dk_indices_addr = ctypes.addressof(ma_keys) + PyDictKeysObject.dk_indices.offset
     # dk_indices_ptr = ctypes.cast(dk_indices_addr, ctypes.POINTER(ctypes.c_char))
 
-    dk_indices = (ctypes.c_char * ma_keys.dk_nentries).from_address(
-        ctypes.addressof(ma_keys.dk_indices)
-    )
-    dk_entries = (PyDictKeyEntry * ma_keys.dk_nentries).from_address(
-        ctypes.addressof(ma_keys.dk_entries)
-    )
+    dk_indices = (ctypes.c_char * ma_keys.dk_size).from_address(ctypes.addressof(ma_keys.dk_indices))
+    dk_entries_addr = ctypes.addressof(ma_keys.dk_indices) + ma_keys.dk_size
+    dk_entries = (PyDictKeyEntry * ma_keys.dk_nentries).from_address(dk_entries_addr)
 
+    py_dk_indices = []
+    for i in range(ma_keys.dk_size):
+        index = dk_indices[i]
+        py_dk_indices.append(ord(index))
+        # print(f"Index: {ord(index)}")
+    print(py_dk_indices)
+
+    # 分割表
+    if pydict_obj.ma_values:
+        ma_values = (ctypes.py_object * pydict_obj.ma_used).from_address(
+            ctypes.addressof(pydict_obj.ma_values.contents))
+        # 组合表的键是共享的，节省内存
+        print("组合表的键地址：", ctypes.addressof(ma_keys))
+        print("组合表的值地址：", ctypes.addressof(ma_values))
     # 遍历 dk_entries 打印键值对
     for i in range(ma_keys.dk_nentries):
         entry = dk_entries[i]
-        index = dk_indices[i]
-        print(f"Index: {index}, Key: {entry.me_key}, Value: {entry.me_value}, Hash: {entry.me_hash}")
+        if pydict_obj.ma_values:
+            print(f"Key: {entry.me_key}, MaValue: {ma_values[i]}, Hash: {entry.me_hash}")
+        else:
+            print(f"Key: {entry.me_key}, Value: {entry.me_value}, Hash: {entry.me_hash}")
+
+
+class A:
+    def __init__(self, name, age, score):
+        self.name = name
+        self.age = age
+        self.score = score
 
 
 if __name__ == '__main__':
-    pydict()
+    d = {"name": "abc", "a": "a", "c": "c"}
+    for i in range(10):
+        d[str(i)] = str(i)
+
+    d = {
+        'name': 'abc', 'age': 1, 'c': 'c', '0': '0', '1': '1',
+        '2': '2', '3': '3', '4': '4', '5': '5', '6': '6', '7': '7', '8': '8', '9': '9',
+        "ok": "end", 1: 10, b'123': 123
+    }
+    d1 = A("li", 18, 88)
+    d2 = A("fei", 20, 99)
+    pydict(d1.__dict__)
+    pydict(d2.__dict__)
