@@ -1,22 +1,90 @@
 import asyncio
+import typing
+import time
+import functools
 
 
-async def get(name: str, timeout: int):
-    """模拟请求数据接口"""
-    print(f"get start {name}")
-    await asyncio.sleep(timeout)
-    print(f"get over {name}")
+class utils:
+    @classmethod
+    def runtime(cls, function: typing.Callable):
+        """
+        计算协程执行时间
+        :param function:
+        :return:
+        """
 
-    return f"get {name} result"
+        @functools.wraps(function)
+        async def wrapper(*args, **kwargs):
+            start_time = time.perf_counter()
+            result = await function(*args, **kwargs)
+            end_time = time.perf_counter() - start_time
+            print(f"{function.__name__} executed in {end_time:.4f} seconds")
+
+            return result
+
+        return wrapper
 
 
-async def post(name: str, timeout: int):
-    """模拟请求数据接口"""
-    print(f"post start {name}")
-    await asyncio.sleep(timeout)
-    print(f"post over {name}")
+class task:
 
-    return f"post {name} result"
+    @classmethod
+    @utils.runtime
+    async def cpu_task(cls):
+        """
+        CPU密集型任务
+        :return:
+        """
+        count = 0
+        for i in range(100000000):
+            count += 1
+        return count
+
+    @classmethod
+    def callback(cls, name):
+        print(f"{int(time.time())} start callback {name}")
+        time.sleep(1)
+        print(f'{int(time.time())} over callback {name}')
+
+    @classmethod
+    def block_task(cls, name):
+        print(f'start block task {name}')
+        time.sleep(3)
+        print(f'over block task {name}')
+        return f'block task result {name}'
+
+    @classmethod
+    async def long_running_task(cls):
+        # 模拟一个耗时的异步任务
+        print('任务开始...')
+        await asyncio.sleep(10)  # 假设这里有一些耗时的IO操作
+        print('任务结束')
+        return '结果'
+
+    @classmethod
+    async def get(cls, name: str, timeout: int):
+        """模拟请求数据接口"""
+        print(f"get start {name}")
+        await asyncio.sleep(timeout)
+        print(f"get over {name}")
+
+        return f"get {name} result"
+
+    @classmethod
+    async def post(cls, name: str, timeout: int):
+        """模拟请求数据接口"""
+        print(f"post start {name}")
+        await asyncio.sleep(timeout)
+        print(f"post over {name}")
+
+        return f"post {name} result"
+
+
+get = task.get
+post = task.post
+long_running_task = task.long_running_task
+block_task = task.block_task
+callback = task.callback
+cpu_task = task.cpu_task
 
 
 # 使用asyncio.run运行协程
@@ -174,6 +242,158 @@ class Tutorial07:
         asyncio.run(self.amain())
 
 
+class Tutorial08:
+    """
+    任务超时
+    """
+
+    async def amain(self):
+        try:
+            # 使用wait_for为long_running_task设置3秒的超时时间
+            result = await asyncio.wait_for(long_running_task(), timeout=3)
+            print(f'得到结果: {result}')
+        except asyncio.TimeoutError:
+            print('任务超时')
+
+        # 运行事件循环
+
+    def main(self):
+        asyncio.run(self.amain())
+
+
+class Tutorial09:
+    """
+    任务取消
+    """
+
+    async def amain(self):
+        long_task = asyncio.create_task(long_running_task())
+        times = 0
+
+        # 检测任务是否完成
+        while not long_task.done():
+            print(f"long task is running {times}.")
+            await asyncio.sleep(1)
+            times += 1
+            if times == 4:
+                # 取消任务
+                long_task.cancel()
+
+        try:
+            await long_task
+        except asyncio.CancelledError:
+            print('任务取消')
+
+        # 运行事件循环
+
+    def main(self):
+        asyncio.run(self.amain())
+
+
+class Tutorial10:
+    """
+    任务取消
+    """
+
+    async def amain(self):
+        long_task = asyncio.create_task(long_running_task())
+        shielded_task = asyncio.shield(long_task)
+
+        # await asyncio.wait_for(shielded_task, timeout=3)
+
+        times = 0
+        # 检测任务是否完成
+        while not shielded_task.done():
+            print(f"long task is running {times}.")
+            await asyncio.sleep(1)
+            times += 1
+            if times == 3:
+                # 取消任务
+                print("尝试取消任务")
+                shielded_task.cancel()
+
+        try:
+            await long_task
+        except asyncio.CancelledError:
+            print('任务取消成功')
+
+    def main(self):
+        asyncio.run(self.amain())
+
+
+class Tutorial11:
+
+    async def amain(self):
+        loop = asyncio.get_running_loop()
+        """
+        允许你在事件循环中运行阻塞的、同步的代码。它将同步的操作放入线程池或进程池中执行，以避免阻塞主事件循环，从而实现异步执行
+        loop.run_in_executor(executor, func, *args)
+        executor：可以是 None，表示使用默认的线程池，也可以是自定义的 ThreadPoolExecutor 或 ProcessPoolExecutor
+        func：要运行的同步函数
+        *args：传递给函数的参数
+        """
+
+        result = loop.run_in_executor(None, block_task, 'baidu')
+
+        task = asyncio.create_task(get('baidu', 1))
+
+        print("阻塞函数结果", await result)
+
+    def main(self):
+        asyncio.run(self.amain())
+
+
+class Tutorial12:
+    """
+    回调
+    """
+
+    async def amain(self):
+        loop = asyncio.get_running_loop()
+        # 立即执行回调
+        loop.call_soon(callback, 'call_soon')
+        # 3秒之后执行回调
+        loop.call_later(3, callback, 'call_later')
+
+        # 当前事件循环的时间
+        now = loop.time()
+        # 一个 特定时间点 执行某个任务, 在 5 秒后的特定时间调用回调
+        loop.call_at(now + 5, callback, 'call_at')
+
+        print("main loop")
+        await asyncio.sleep(7)
+
+    def main(self):
+        asyncio.run(self.amain())
+
+
+class Tutorial13:
+    """
+    CPU密集型任务，会阻塞
+    """
+
+    @utils.runtime
+    async def io_main(self):
+        task1 = asyncio.create_task(get('baidu', 3))
+        task2 = asyncio.create_task(get('douyin', 1))
+        await task1
+        await task2
+
+    @utils.runtime
+    async def cpu_main(self):
+        task3 = asyncio.create_task(get('baidu', 1))
+        task1 = asyncio.create_task(cpu_task())
+        task2 = asyncio.create_task(cpu_task())
+
+        await task1
+        await task2
+        await task3
+
+    def main(self):
+        asyncio.run(self.cpu_main())
+        asyncio.run(self.io_main())
+
+
 if __name__ == '__main__':
     # t1 = Tutorial01()
     # t1.main()
@@ -193,5 +413,23 @@ if __name__ == '__main__':
     # t6 = Tutorial06()
     # t6.main()
 
-    t7 = Tutorial07()
-    t7.main()
+    # t7 = Tutorial07()
+    # t7.main()
+
+    # t8 = Tutorial08()
+    # t8.main()
+
+    # t9 = Tutorial09()
+    # t9.main()
+
+    # t10 = Tutorial10()
+    # t10.main()
+
+    # t11 = Tutorial11()
+    # t11.main()
+
+    # t12 = Tutorial12()
+    # t12.main()
+
+    t13 = Tutorial13()
+    t13.main()
