@@ -1,4 +1,33 @@
 import asyncio
+import greenlet
+
+
+class OldAsyncio:
+    """
+    Python3.4版本的异步io
+    """
+
+    @asyncio.coroutine
+    def func1(self):
+        print(1)
+        # 网络 IO 请求
+        yield from asyncio.sleep(2)  # 遇到 IO 耗时操作，自动切换
+        print(2)
+
+    @asyncio.coroutine
+    def func2(self):
+        print(3)
+        # 网络 IO 请求
+        yield from asyncio.sleep(2)  # 遇到 IO 耗时操作，自动切换
+        print(4)
+
+    def main(self):
+        tasks = [
+            asyncio.ensure_future(self.func1()),
+            asyncio.ensure_future(self.func2())
+        ]
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(asyncio.wait(tasks))
 
 
 class AIO:
@@ -47,6 +76,51 @@ class AIO:
         loop.run_until_complete(asyncio.wait(tasks))
 
 
+class OldCoro:
+    gre1 = None
+    gre2 = None
+    """
+    旧版本的协程切换
+    """
+
+    def gre_func1(self):
+        print('1111')
+        self.gre2.switch()  # 主动切换到方法gre_func2
+        print('222')
+        self.gre2.switch()
+
+    def gre_func2(self):
+        print('333')
+        self.gre1.switch()  # 主动切换到方法gre_func1
+        print('444')
+
+    def yie_func1(self):
+        yield 1
+        yield from self.yie_func2()  # 主动切换
+        yield 2
+
+    def yie_func2(self):
+        yield 3
+
+        yield 4
+
+    def main(self):
+        self.gre1 = greenlet.greenlet(self.gre_func1)
+        self.gre2 = greenlet.greenlet(self.gre_func2)
+        self.gre1.switch()
+
+        print('---------------------')
+
+        for x in self.yie_func1():
+            print(x)
+
+
 if __name__ == '__main__':
     aio = AIO()
     aio.main()
+
+    oc = OldCoro()
+    oc.main()
+
+    oa = OldAsyncio()
+    oa.main()

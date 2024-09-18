@@ -2,89 +2,15 @@ import asyncio
 import typing
 import time
 import functools
+import tasks
+import utils
 
-
-class utils:
-    @classmethod
-    def runtime(cls, function: typing.Callable):
-        """
-        计算协程执行时间
-        :param function:
-        :return:
-        """
-
-        @functools.wraps(function)
-        async def wrapper(*args, **kwargs):
-            start_time = time.perf_counter()
-            result = await function(*args, **kwargs)
-            end_time = time.perf_counter() - start_time
-            print(f"{function.__name__} executed in {end_time:.4f} seconds")
-
-            return result
-
-        return wrapper
-
-
-class task:
-
-    @classmethod
-    @utils.runtime
-    async def cpu_task(cls):
-        """
-        CPU密集型任务
-        :return:
-        """
-        count = 0
-        for i in range(100000000):
-            count += 1
-        return count
-
-    @classmethod
-    def callback(cls, name):
-        print(f"{int(time.time())} start callback {name}")
-        time.sleep(1)
-        print(f'{int(time.time())} over callback {name}')
-
-    @classmethod
-    def block_task(cls, name):
-        print(f'start block task {name}')
-        time.sleep(3)
-        print(f'over block task {name}')
-        return f'block task result {name}'
-
-    @classmethod
-    async def long_running_task(cls):
-        # 模拟一个耗时的异步任务
-        print('任务开始...')
-        await asyncio.sleep(10)  # 假设这里有一些耗时的IO操作
-        print('任务结束')
-        return '结果'
-
-    @classmethod
-    async def get(cls, name: str, timeout: int):
-        """模拟请求数据接口"""
-        print(f"get start {name}")
-        await asyncio.sleep(timeout)
-        print(f"get over {name}")
-
-        return f"get {name} result"
-
-    @classmethod
-    async def post(cls, name: str, timeout: int):
-        """模拟请求数据接口"""
-        print(f"post start {name}")
-        await asyncio.sleep(timeout)
-        print(f"post over {name}")
-
-        return f"post {name} result"
-
-
-get = task.get
-post = task.post
-long_running_task = task.long_running_task
-block_task = task.block_task
-callback = task.callback
-cpu_task = task.cpu_task
+get = tasks.get
+post = tasks.post
+long_running_task = tasks.long_running_task
+block_task = tasks.block_task
+callback = tasks.callback
+acpu_task = tasks.acpu_task
 
 
 # 使用asyncio.run运行协程
@@ -372,18 +298,18 @@ class Tutorial13:
     CPU密集型任务，会阻塞
     """
 
-    @utils.runtime
+    @utils.aruntime
     async def io_main(self):
         task1 = asyncio.create_task(get('baidu', 3))
         task2 = asyncio.create_task(get('douyin', 1))
         await task1
         await task2
 
-    @utils.runtime
+    @utils.aruntime
     async def cpu_main(self):
         task3 = asyncio.create_task(get('baidu', 1))
-        task1 = asyncio.create_task(cpu_task())
-        task2 = asyncio.create_task(cpu_task())
+        task1 = asyncio.create_task(acpu_task())
+        task2 = asyncio.create_task(acpu_task())
 
         await task1
         await task2
