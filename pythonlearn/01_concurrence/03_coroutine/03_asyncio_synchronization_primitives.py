@@ -9,6 +9,7 @@ total = 5
 
 class Tutorial01:
     """
+    不加锁的时候
     协程 A 读取 total，假设当前值大于 0，发生切换。
     协程 B 也读取 total，此时它还未被修改，值仍然大于 0。
     协程 A 完成减 1 操作。
@@ -35,11 +36,12 @@ class Tutorial01:
 
 class Tutorial02:
     """
-    协程 A 读取 total，假设当前值大于 0，发生切换。
-    协程 B 也读取 total，此时它还未被修改，值仍然大于 0。
-    协程 A 完成减 1 操作。
-    协程 B 完成减 1 操作。
-    这意味着两个协程完成后，total 被减了两次
+    加锁后
+    协程 A 先获取锁，然后读取 total，假设当前值大于 0，发生切换。
+    协程 B 获取锁的时候发现，锁被A占用了，只能等待A释放了再读取 total。
+    等待协程 A 完成减 1 操作释放了锁。
+    此时协程 B 等到了锁，再进行减 1 操作。
+    两个并发操作，通过锁变成了串行操作
     """
 
     async def update_resource(self, lock):
@@ -58,49 +60,6 @@ class Tutorial02:
 
     def main(self):
         asyncio.run(self.amain())
-
-
-# class Tutorial01:
-#     """
-#     协程 A 读取 shared_resource，假设当前值为 0。
-#     协程 B 也读取 shared_resource，此时它还未被修改，值仍然是 0。
-#     协程 A 完成加 1 操作，将 shared_resource 设为 1。
-#     协程 B 完成加 1 操作，因为它之前读取的值是 0，所以将 shared_resource 设为 1。
-#     这意味着两个协程完成后，shared_resource 仅增加了一次，而不是两次
-#     """
-#
-#     async def update_resource(self):
-#         global shared_resource
-#         temp = shared_resource
-#         await asyncio.sleep(0.1)  # 模拟异步操作中的延迟
-#         shared_resource = temp + 1
-#
-#     async def amain(self):
-#         tasks = [asyncio.create_task(self.update_resource()) for _ in range(50)]
-#         await asyncio.gather(*tasks)
-#         print(f"最终资源值: {shared_resource}")
-#
-#     def main(self):
-#         asyncio.run(self.amain())
-#
-#
-# class Tutorial02:
-#
-#     async def safe_update_resource(self, lock):
-#         global shared_resource
-#         async with lock:  # 只有持有锁的协程可以修改共享资源
-#             temp = shared_resource
-#             await asyncio.sleep(0.1)  # 模拟异步操作中的延迟
-#             shared_resource = temp + 1
-#
-#     async def amain(self):
-#         lock = asyncio.Lock()  # 创建一个异步锁
-#         tasks = [asyncio.create_task(self.safe_update_resource(lock)) for _ in range(50)]
-#         await asyncio.gather(*tasks)
-#         print(f"最终资源值: {shared_resource}")
-#
-#     def main(self):
-#         asyncio.run(self.amain())
 
 
 class Tutorial03:
@@ -136,8 +95,8 @@ class Tutorial04:
 
 
 if __name__ == '__main__':
-    t1 = Tutorial01()
-    t1.main()
+    # t1 = Tutorial01()
+    # t1.main()
 
     t2 = Tutorial02()
     t2.main()
