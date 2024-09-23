@@ -56,7 +56,7 @@ def block_task(name):
     return f'block task result {name}'
 
 
-async def get(name: str, timeout: int):
+async def get(name: str, timeout: int = 1):
     """模拟请求数据接口"""
     print(f"get start {name}")
     await asyncio.sleep(timeout)

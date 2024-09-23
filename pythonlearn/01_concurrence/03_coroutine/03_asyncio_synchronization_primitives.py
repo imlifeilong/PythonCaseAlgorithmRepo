@@ -1,12 +1,15 @@
 import asyncio
 import random
+import tasks
 
-shared_resource = 0  # 共享资源
 shared_list = []  # 共享的list
 
-total = 5
+shared_total = 5  # 共享资源
+
+get = tasks.get
 
 
+# 协程锁
 class Tutorial01:
     """
     不加锁的时候
@@ -18,17 +21,17 @@ class Tutorial01:
     """
 
     async def update_resource(self):
-        global total
+        global shared_total
 
-        if total > 0:
+        if shared_total > 0:
             # 发生切换后就会出现同步问题，所以在写程序的时候要尽量避免
             await asyncio.sleep(0.1)  # 模拟异步操作中的延迟
-            total -= 1
+            shared_total -= 1
 
     async def amain(self):
         tasks = [asyncio.create_task(self.update_resource()) for _ in range(50)]
         await asyncio.gather(*tasks)
-        print(f"最终资源值: {total}")
+        print(f"最终资源值: {shared_total}")
 
     def main(self):
         asyncio.run(self.amain())
@@ -45,38 +48,44 @@ class Tutorial02:
     """
 
     async def update_resource(self, lock):
-        global total
+        global shared_total
         async with lock:  # 只有持有锁的协程可以修改共享资源
-            if total > 0:
+            if shared_total > 0:
                 # 发生切换后就会出现同步问题，所以在写程序的时候要尽量避免
                 await asyncio.sleep(0.1)  # 模拟异步操作中的延迟
-                total -= 1
+                shared_total -= 1
 
     async def amain(self):
         lock = asyncio.Lock()  # 创建一个异步锁
         tasks = [asyncio.create_task(self.update_resource(lock)) for _ in range(50)]
         await asyncio.gather(*tasks)
-        print(f"最终资源值: {total}")
+        print(f"最终资源值: {shared_total}")
 
     def main(self):
         asyncio.run(self.amain())
 
 
+# 协程信号量
 class Tutorial03:
 
-    async def add_to_list(self, item):
-        await asyncio.sleep(random.random())  # 模拟异步操作中的延迟
-        shared_list.append(item)  # 并发地向共享list中添加数据
+    async def worker(self, semaphore, site):
+        async with semaphore:
+            await get(site)
 
     async def amain(self):
-        tasks = [asyncio.create_task(self.add_to_list(i)) for i in range(50)]
-        await asyncio.gather(*tasks)
-        print(f"无锁的情况下最终列表: {len(shared_list)} {shared_list}")
+        semaphore = asyncio.Semaphore(4)  # 信号量限制并发数量为4
+        tasks_list = []
+        for site in ["baidu", "sina", "163", "web", "douyin", "kuaishou", "qq"]:
+            task = asyncio.create_task(self.worker(semaphore, site))
+            tasks_list.append(task)
+
+        await asyncio.gather(*tasks_list)
 
     def main(self):
         asyncio.run(self.amain())
 
 
+# 事件
 class Tutorial04:
 
     async def add_to_list(self, lock, item):
@@ -97,13 +106,12 @@ class Tutorial04:
 if __name__ == '__main__':
     # t1 = Tutorial01()
     # t1.main()
+    #
+    # t2 = Tutorial02()
+    # t2.main()
 
-    t2 = Tutorial02()
-    t2.main()
-
-    # t3 = Tutorial03()
-    # t3.main()
+    t3 = Tutorial03()
+    t3.main()
 
     # t4 = Tutorial04()
     # t4.main()
-
