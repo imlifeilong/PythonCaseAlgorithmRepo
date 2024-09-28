@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课程章节</title>
+    <link rel="stylesheet" href="/static/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 15px 0;
+            padding: 15px;
+            background: #e7f3fe;
+            border-left: 5px solid #2196F3;
+            border-radius: 5px;
+            transition: transform 0.2s;
+        }
+        li:hover {
+            transform: scale(1.02);
+            background: #d1e7fd;
+        }
+        a {
+            text-decoration: none;
+            color: #2196F3;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+<!--<header>-->
+<!--    <h1>课程章节</h1>-->
+<!--</header>-->
+
+<div class="container">
+    <h2>Django路由系统</h2>
+    <ul>
+        <li><a href="/app/1">路径参数整数类型【/app/1】</a></li>
+        <li><a href="/app/python">路径参数字符类型【/app/python】</a></li>
+        <li><a href="/app/python/230">多个路径参数字符类型【/app/python/230】</a></li>
+        <li><a href="/app/alias/name">路由的别名【/app/alias/name】</a></li>
+        <li><a href="{% url 'alias' %}">模板中使用路由的别名【{% url 'alias' %}】</a></li>
+        <li><a href="/app/alias/reflect">视图中使用路由的别名【/app/alias/reflect】</a></li>
+        <li><a href="#chapter3">第 3 章: 应用与项目管理</a></li>
+        <li><a href="#chapter4">第 4 章: URL 路由系统</a></li>
+        <li><a href="#chapter5">第 5 章: 视图 (Views)</a></li>
+        <li><a href="#chapter6">第 6 章: 模板系统 (Templates)</a></li>
+        <li><a href="#chapter7">第 7 章: 表单处理</a></li>
+        <li><a href="#chapter8">第 8 章: 模型 (Models)</a></li>
+        <li><a href="#chapter9">第 9 章: 管理后台 (Admin)</a></li>
+        <li><a href="#chapter10">第 10 章: 用户认证与权限系统</a></li>
+        <li><a href="#chapter11">第 11 章: 中间件 (Middleware)</a></li>
+        <li><a href="#chapter12">第 12 章: 静态文件与媒体文件</a></li>
+        <li><a href="#chapter13">第 13 章: 国际化与本地化 (I18N & L10N)</a></li>
+        <li><a href="#chapter14">第 14 章: 安全性</a></li>
+        <li><a href="#chapter15">第 15 章: 测试 (Testing)</a></li>
+        <li><a href="#chapter16">第 16 章: 性能优化</a></li>
+        <li><a href="#chapter17">第 17 章: 部署</a></li>
+        <li><a href="#chapter18">第 18 章: Django Channels 与 WebSockets</a></li>
+        <li><a href="#chapter19">第 19 章: Django REST Framework (DRF)</a></li>
+    </ul>
+</div>
+
+<footer>
+    <p>&copy; 2024 课程内容版权所有</p>
+</footer>
+
+</body>
+</html>
