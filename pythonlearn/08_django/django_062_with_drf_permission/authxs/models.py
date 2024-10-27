@@ -22,20 +22,20 @@ class User(AbstractUser):
         return f"<{self.username}>"
 
 
-# class Token(models.Model):
-#     """
-#     token表
-#     """
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     token = models.CharField(max_length=64)
-#     add_time = models.DateTimeField(default=datetime.now, verbose_name='添加时间')
-#
-#     class Meta:
-#         verbose_name = 'token表'
-#         verbose_name_plural = verbose_name
-#
-#     def __str__(self):
-#         return self.user.username
+class Token(models.Model):
+    """
+    token表
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    token = models.CharField(max_length=64)
+    add_time = models.DateTimeField(default=datetime.now, verbose_name='添加时间')
+
+    class Meta:
+        verbose_name = 'token表'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.user.username
 
 
 class CommonBook(models.Model):
@@ -84,3 +84,6 @@ class SVIPBook(models.Model):
 
     def __str__(self):
         return self.title
+from django.db import models
+
+# Create your models here.

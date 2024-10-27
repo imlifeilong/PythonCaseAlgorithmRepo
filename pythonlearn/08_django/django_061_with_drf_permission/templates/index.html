@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课程章节</title>
+    <link rel="stylesheet" href="/static/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .login-container {
+            width: 300px;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-container label {
+            font-weight: bold;
+        }
+
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .login-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 15px 0;
+            padding: 15px;
+            background: #e7f3fe;
+            border-left: 5px solid #2196F3;
+            border-radius: 5px;
+            transition: transform 0.2s;
+        }
+
+        li:hover {
+            transform: scale(1.02);
+            background: #d1e7fd;
+        }
+
+        a {
+            text-decoration: none;
+            color: #2196F3;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <ul>
+        <li><a href="/api-auth/login/">登录</a></li>
+        <li><a href="/common/">普通会员</a></li>
+        <li><a href="/vip/">大会员</a></li>
+        <li><a href="/svip/">超级会员</a></li>
+        <li><a href="/api-auth/logout/">注销</a></li>
+    </ul>
+</div>
+
+<div class="login-container">
+    <h2>Login</h2>
+    <form action="/api/login/" method="post">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">Login</button>
+    </form>
+</div>
+
+
+</body>
+</html>

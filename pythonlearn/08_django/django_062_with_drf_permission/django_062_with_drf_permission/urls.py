@@ -1,4 +1,4 @@
-"""django_06_with_drf_permission URL Configuration
+"""django_062_with_drf_permission URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -15,9 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from authxs.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('common/', CommonBookView.as_view(), name='common'),
 ]
