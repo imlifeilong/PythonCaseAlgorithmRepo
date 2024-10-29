@@ -1,7 +1,7 @@
 <template>
     <div>
       <el-card class="box-card">
-        <h2>µÇÂ¼</h2>
+        <h2>ç™»å½•</h2>
         <el-form
           :model="ruleForm"
           status-icon
@@ -11,10 +11,10 @@
           label-width="70px"
           class="login-from"
         >
-          <el-form-item label="ÓÃ»§Ãû" prop="uname">
+          <el-form-item label="ç”¨æˆ·å" prop="uname">
             <el-input v-model="ruleForm.uname"></el-input>
           </el-form-item>
-          <el-form-item label="ÃÜÂë" prop="password">
+          <el-form-item label="å¯†ç " prop="password">
             <el-input
               type="password"
               v-model="ruleForm.password"
@@ -24,11 +24,11 @@
         </el-form>
         <div class="btnGroup">
           <el-button type="primary" @click="submitForm('ruleForm')"
-            >µÇÂ¼</el-button
+            >ç™»å½•</el-button
           >
-          <el-button @click="resetForm('ruleForm')">ÖØÖÃ</el-button>
+          <el-button @click="resetForm('ruleForm')">é‡ç½®</el-button>
           <router-link to="/register">
-            <el-button style="margin-left:10px">×¢²á</el-button>
+            <el-button style="margin-left:10px">æ³¨å†Œ</el-button>
           </router-link>
         </div>
       </el-card>
@@ -45,10 +45,10 @@
         },
         rules: {
           uname: [
-            { required: true, message: "ÓÃ»§Ãû²»ÄÜÎª¿Õ£¡", trigger: "blur" },
+            { required: true, message: "ç”¨æˆ·åä¸èƒ½ä¸ºç©ºï¼", trigger: "blur" },
           ],
           password: [
-            { required: true, message: "ÃÜÂë²»ÄÜÎª¿Õ£¡", trigger: "blur" },
+            { required: true, message: "å¯†ç ä¸èƒ½ä¸ºç©ºï¼", trigger: "blur" },
           ],
         },
       };
