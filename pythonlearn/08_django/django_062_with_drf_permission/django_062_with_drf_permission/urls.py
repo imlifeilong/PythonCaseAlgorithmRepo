@@ -19,5 +19,9 @@ from authxs import views as authxs_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/login/', authxs_views.login),
+    # path('api/login/', authxs_views.login),
+    path('auth/', authxs_views.AuthView.as_view(), name='auth'),
+    path('common/', authxs_views.CommonBookView.as_view(), name='common'),
+    path('vip/', authxs_views.VIPBookView.as_view(), name='vip'),
+    path('svip/', authxs_views.SVIPBookView.as_view(), name='svip'),
 ]
