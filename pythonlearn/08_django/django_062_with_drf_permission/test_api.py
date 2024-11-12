@@ -45,10 +45,16 @@ class TestApi:
         # username = "lifeilong"
         # password = "lifeilong"
 
-        self.login(username, password)
-        self.get_common_book()
-        self.get_vip_book()
-        self.get_svip_book()
+        for username, password in (
+                ("admin", "admin"),
+                ("root", "root"),
+                ("lifeilong", "lifeilong"),
+        ):
+
+            self.login(username, password)
+            self.get_common_book()
+            self.get_vip_book()
+            self.get_svip_book()
 
 
 if __name__ == '__main__':
