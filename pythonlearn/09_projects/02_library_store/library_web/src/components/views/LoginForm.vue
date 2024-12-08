@@ -24,37 +24,40 @@
       <button type="submit" @click="login">登录</button>
     </form>
     <p>还没有账号？<router-link to="/register">去注册</router-link></p>
+    <a :href="admin_site" target="_blank" >我是管理员</a>
   </div>
 </div>
 </template>
 
 <script>
-import { loginUser } from '../../api/index';
+// import { loginUser } from '../../api/index';
+import { API_BASE_URL } from '../../api/index';
+import { mapActions } from 'vuex';
+
 export default {
   name: 'LoginForm',
 data() {
   return {
+    admin_site: API_BASE_URL+'/admin',
     username: '',
     password: '',
   };
-},
-methods: {
-  login() {
-    const { username, password } = this;
-    loginUser(username, password)
-     .then((response) => {
-        if (response.success) {
-          // 登录成功后的处理，比如存储 token 并跳转到其他页面
-        } else {
-          // 登录失败的处理
-        }
-      })
-     .catch((error) => {
-        // 处理错误情况
-        console.error('登录错误：', error);
-      });
   },
-},
+methods: {
+  ...mapActions(['login']),
+  handleLogin() {
+    console.log('handleLogin')
+    this.login({
+      username: this.username,
+      password: this.password
+    }).then(() => {
+      // 登录成功后的操作
+      // this.$router.push('/'); // 跳转到登录页面
+    }).catch((error) => {
+      console.error(error);
+    });
+  },     
+  },
 };
 </script>
 

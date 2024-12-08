@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API_BASE_URL = 'http://127.0.0.1:8000'; // 替换为实际的后端 API 地址
-
+export {API_BASE_URL};
 export const loginUser = async (username, password) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/api/login/`, { username, password });
