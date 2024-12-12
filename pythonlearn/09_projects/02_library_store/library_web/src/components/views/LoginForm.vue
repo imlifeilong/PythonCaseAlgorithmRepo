@@ -30,34 +30,55 @@
 </template>
 
 <script>
-// import { loginUser } from '../../api/index';
+import { loginUser } from '../../api/index';
 import { API_BASE_URL } from '../../api/index';
-import { mapActions } from 'vuex';
+import { useStore } from 'vuex';
+import { ref } from 'vue';
+// import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default {
-  name: 'LoginForm',
+name: 'LoginForm',
 data() {
   return {
     admin_site: API_BASE_URL+'/admin',
-    username: '',
-    password: '',
+    // username: '',
+    // password: '',
   };
+},
+  setup() {
+    const store = useStore();
+    const router = useRouter();
+    const username = ref(''); // 定义响应式变量
+    const password = ref('');
+    // const isLoggedIn = computed(() => store.getters.isLoggedIn);
+    // const username = computed(() => store.getters.getUserName);
+
+    // const logout = () => {
+    //   store.dispatch('logout');
+    // };
+    const handleLogin = () => {
+      // 模拟登录逻辑
+      loginUser(username.value, password.value).then((response) => {
+        console.log(response)
+        if (response.status) {
+          const token=response.token;
+          const username=response.username;
+          // 登录成功后的处理，比如存储 token 并跳转到其他页面
+          store.dispatch('login', { username, token });
+          router.push('/');
+        } else {
+          // 登录失败的处理
+        }
+      })
+      // 调用 Vuex 的 login action
+      
+    };
+
+    return { handleLogin, username, password };
   },
-methods: {
-  ...mapActions(['login']),
-  handleLogin() {
-    console.log('handleLogin')
-    this.login({
-      username: this.username,
-      password: this.password
-    }).then(() => {
-      // 登录成功后的操作
-      // this.$router.push('/'); // 跳转到登录页面
-    }).catch((error) => {
-      console.error(error);
-    });
-  },     
-  },
+
+methods: {},
 };
 </script>
 

@@ -1,55 +1,48 @@
-
-import Vue from 'vue'
-import Vuex from 'vuex'
+import { createStore } from 'vuex';
 
 
-// import storage from 'store'
-Vue.use(Vuex);
-import { loginUser } from '../api/index';
-
-export default new Vuex.Store({
+export default createStore({
     state: {
-      user:{},
+      username:null,
       token:null,
+      logined:false,
     }, // 存放数据
-    getters: {}, // 计算属性
+    getters: {
+      isLoggedIn: (state) => !!state.token,
+      getUserName: (state) => state.username,
+    }, // 计算属性
     mutations: {
       SET_USERNAME(state, username) {
-        state.user.username = username;
+        state.username = username;
       },
       SET_TOKEN(state, token) {
         state.token = token;
-      }
+      },
+      SET_LOGINED(state, logined) {
+        state.logined = logined;
+      },
+      CLEAR_STATUS(state) {
+        state.token = null;
+        state.username = null;
+        state.logined = false;
+      },
 
     }, // 修改state中数据的一些方法
     actions: {
-      login({ commit }, {username, password}) {
-        // 模拟登录请求
-        return new Promise((resolve, reject) => {
-          loginUser(username, password)
-          .then((response) => {
-              if (response.status) {
-                // 登录成功后的处理，比如存储 token 并跳转到其他页面
-                const result = response.data
-                // storage.set('access_token', result.token)
-                commit('SET_TOKEN', result.token)
-                commit('SET_USERNAME', result.username)
-                // commit('SET_USERID', result.id)
-                // resolve(result.data);
-              } else {
-                // 登录失败的处理
-                reject(new Error('登录失败'));
-              }
-            })
-          .catch((error) => {
-              // 处理错误情况
-              console.error('登录错误：', error);
-              reject(error)
-            });
-        });
-    }, // 异步方法
+      // 异步保存用户信息
+      login({ commit }, { username, token }) {
+        // 可以添加实际的登录 API 请求逻辑
+        commit('SET_USERNAME', username);
+        commit('SET_TOKEN', token);
+        commit('SET_LOGINED', true);
+      },
+      // 异步登出
+      logout({ commit }) {
+        // 可以添加实际的登出 API 请求逻辑
+        commit('CLEAR_STATUS');
+      },
+    }, // 异步方
     modules: {
       // user
     }
-  }
 })
