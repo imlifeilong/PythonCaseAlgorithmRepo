@@ -62,8 +62,10 @@ data() {
       loginUser(username.value, password.value).then((response) => {
         console.log(response)
         if (response.status) {
-          const token=response.token;
-          const username=response.username;
+          const token=response.data.token;
+          const username=response.data.username;
+          console.log(token)
+          console.log(username)
           // 登录成功后的处理，比如存储 token 并跳转到其他页面
           store.dispatch('login', { username, token });
           router.push('/');

@@ -40,17 +40,39 @@
 <script>
 
 import CarouselView from './CarouselView.vue';
+import { useStore } from 'vuex';
 
 export default {
+  setup() {
+    const store = useStore();
+    // const router = useRouter();
+
+    const username = store.getters.getUserName || '未知用户';
+    const isLoggedIn = store.getters.isLoggedIn || false;
+
+    console.log(username)
+    console.log(isLoggedIn)
+    
+    const logout = () => {
+      store.dispatch('logout');
+      router.push('/login');
+    };
+
+    return {
+      username,
+      isLoggedIn,
+      logout,
+    };
+  },
   name: "SlideShow",
   components: {
     CarouselView,
   },
   data() {
   return {
-    isLoggedIn: false, // 用户登录状态
+    // isLoggedIn: false, // 用户登录状态
     showDropdown: false, // 下拉菜单是否显示
-    username: '', // 用户名
+    // username: '', // 用户名
   };
 },
 methods: {
