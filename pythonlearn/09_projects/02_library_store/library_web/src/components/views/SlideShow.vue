@@ -53,15 +53,15 @@ export default {
     console.log(username)
     console.log(isLoggedIn)
     
-    const logout = () => {
-      store.dispatch('logout');
-      router.push('/login');
-    };
+    // const logout = () => {
+    //   store.dispatch('logout');
+    //   router.push('/login');
+    // };
 
     return {
       username,
       isLoggedIn,
-      logout,
+      // logout,
     };
   },
   name: "SlideShow",

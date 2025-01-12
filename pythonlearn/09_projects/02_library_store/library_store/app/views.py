@@ -11,6 +11,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from app.models import User
 
+from app.serializers import BooksSerializer
+
 from rest_framework.permissions import BasePermission
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
@@ -46,3 +48,12 @@ def register(request):
     user = User(username=username, password=make_password(password))
     user.save()
     return Response({"message": "用户注册成功。"}, status=status.HTTP_201_CREATED)
+
+
+class CreateAPIView(APIView):
+    def post(self, request):
+        serializer = BooksSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
