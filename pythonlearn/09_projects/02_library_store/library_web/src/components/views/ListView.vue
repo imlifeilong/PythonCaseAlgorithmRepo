@@ -24,21 +24,26 @@
     data() {
       return {
         books: [
-          { title: "图书1", author: "作者1", cover: "https://via.placeholder.com/120x180" },
-          { title: "图书2", author: "作者2", cover: "https://via.placeholder.com/120x180" },
-          { title: "图书3", author: "作者3", cover: "https://via.placeholder.com/120x180" },
-          { title: "图书4", author: "作者4", cover: "https://via.placeholder.com/120x180" },
-          { title: "图书5", author: "作者5", cover: "https://via.placeholder.com/120x180" },
-          { title: "图书6", author: "作者6", cover: "https://via.placeholder.com/120x180" },
-          { title: "图书7", author: "作者7", cover: "https://via.placeholder.com/120x180" },
-          { title: "图书8", author: "作者8", cover: "https://via.placeholder.com/120x180" },
-          { title: "图书9", author: "作者9", cover: "https://via.placeholder.com/120x180" },
-          { title: "图书10", author: "作者10", cover: "https://via.placeholder.com/120x180" },
-          { title: "图书11", author: "作者11", cover: "https://via.placeholder.com/120x180" },
-          { title: "图书12", author: "作者12", cover: "https://via.placeholder.com/120x180" },
+        { title: "图书1", description: "探索美食的奥秘。", category: "美食",author: "作者1", cover: "https://pic.arkread.com/cover/ebook/f/451846511.1703837771.jpg!cover_default.jpg" },
+        { title: "图书2", description: "探索美食的奥秘。", category: "美食",author: "作者2", cover: "https://pic.arkread.com/cover/ebook/f/451846511.1703837771.jpg!cover_default.jpg" },
+        { title: "图书3", description: "探索美食的奥秘。", category: "美食",author: "作者3", cover: "https://pic.arkread.com/cover/ebook/f/451846511.1703837771.jpg!cover_default.jpg" },
+        { title: "图书4", description: "探索美食的奥秘。", category: "美食",author: "作者4", cover: "https://pic.arkread.com/cover/ebook/f/451846511.1703837771.jpg!cover_default.jpg" },
+        { title: "图书5", description: "探索美食的奥秘。", category: "美食",author: "作者5", cover: "https://pic.arkread.com/cover/ebook/f/451846511.1703837771.jpg!cover_default.jpg" },
+        { title: "图书6", description: "探索美食的奥秘。", category: "美食",author: "作者6", cover: "https://pic.arkread.com/cover/ebook/f/451846511.1703837771.jpg!cover_default.jpg" },
+        { title: "图书7", description: "探索美食的奥秘。", category: "美食",author: "作者7", cover: "https://pic.arkread.com/cover/ebook/f/451846511.1703837771.jpg!cover_default.jpg" },
+        { title: "图书8", description: "探索美食的奥秘。", category: "美食",author: "作者8", cover: "https://pic.arkread.com/cover/ebook/f/122163837.1653694565.jpg!cover_default.jpg" },
+        { title: "图书9", description: "探索美食的奥秘。", category: "美食",author: "作者9", cover: "https://pic.arkread.com/cover/ebook/f/122163837.1653694565.jpg!cover_default.jpg" },
+        { title: "图书10", description: "探索美食的奥秘。", category: "美食",author: "作者10", cover: "https://pic.arkread.com/cover/ebook/f/122163837.1653694565.jpg!cover_default.jpg" },
+        { title: "图书11", description: "探索美食的奥秘。", category: "美食",author: "作者11", cover: "https://pic.arkread.com/cover/ebook/f/122163837.1653694565.jpg!cover_default.jpg" },
+        { title: "图书11", description: "探索美食的奥秘。", category: "美食",author: "作者11", cover: "https://pic.arkread.com/cover/ebook/f/122163837.1653694565.jpg!cover_default.jpg" },
+        { title: "图书11", description: "探索美食的奥秘。", category: "美食",author: "作者11", cover: "https://pic.arkread.com/cover/ebook/f/122163837.1653694565.jpg!cover_default.jpg" },
+        { title: "图书11", description: "探索美食的奥秘。", category: "美食",author: "作者11", cover: "https://pic.arkread.com/cover/ebook/f/122163837.1653694565.jpg!cover_default.jpg" },
+        { title: "图书11", description: "探索美食的奥秘。", category: "美食",author: "作者11", cover: "https://pic.arkread.com/cover/ebook/f/122163837.1653694565.jpg!cover_default.jpg" },
+        { title: "Python编程：从入门到实践", description: "探索美食的奥秘。", category: "美食",author: "[美] 埃里克·马瑟斯", cover: "https://pic.arkread.com/cover/ebook/f/122163837.1653694565.jpg!cover_default.jpg" },
+
         ],
         currentPage: 1,
-        itemsPerPage: 6, // 每页显示的图书数量
+        itemsPerPage: 15, // 每页显示的图书数量
       };
     },
     computed: {
@@ -75,7 +80,7 @@
   
   .book-items {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 每行显示3本书 */
+    grid-template-columns: repeat(5, 1fr); /* 每行显示3本书 */
     gap: 20px;
   }
   
@@ -85,7 +90,7 @@
     align-items: center;
     text-align: center;
     padding: 10px;
-    border: 1px solid #eaeaea;
+    /* border: 1px solid #eaeaea; */
     border-radius: 10px;
     background-color: #fff;
     transition: box-shadow 0.3s ease;
