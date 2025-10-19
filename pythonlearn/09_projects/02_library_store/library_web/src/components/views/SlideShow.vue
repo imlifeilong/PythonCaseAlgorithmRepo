@@ -33,15 +33,15 @@
     </div>
   </div>
 </header>
-  <!-- <CarouselView /> -->
-  <ListView />
+  <CarouselView />
+  <!-- <ListView /> -->
 </div>
 </template>
 
 <script>
 
-// import CarouselView from './CarouselView.vue';
-import ListView from './ListView.vue';
+import CarouselView from './CarouselView.vue';
+// import ListView from './ListView.vue';
 import { useStore } from 'vuex';
 
 export default {
@@ -68,8 +68,8 @@ export default {
   },
   name: "SlideShow",
   components: {
-    // CarouselView,
-    ListView
+    CarouselView,
+    // ListView
   },
   data() {
   return {

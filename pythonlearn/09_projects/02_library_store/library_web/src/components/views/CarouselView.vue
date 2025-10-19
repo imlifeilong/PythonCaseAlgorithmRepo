@@ -29,7 +29,7 @@
       </li>
     </ul>
   </div>
-  <div class="book-list">
+  <!-- <div class="book-list">
     <div class="book-item" v-for="(book, index) in books" :key="index">
       <img :src="book.cover" alt="Book Cover" class="book-cover" />
       <div class="book-details">
@@ -40,13 +40,29 @@
       </div>
     </div>
 
-    <!-- 分页 -->
     <div class="pagination">
       <button :disabled="currentPage === 1" @click="prevPage">上一页</button>
       <span>第 {{ currentPage }} 页 / 共 {{ totalPages }} 页</span>
       <button :disabled="currentPage === totalPages" @click="nextPage">下一页</button>
     </div>
-  </div>
+  </div> -->
+  <div class="book-list">
+      <!-- 图书列表 -->
+      <div class="book-items">
+        <div class="book-item" v-for="(book, index) in paginatedBooks" :key="index">
+          <img :src="book.cover" alt="Book Cover" />
+          <h3 class="book-title">{{ book.title }}</h3>
+          <p class="book-author">{{ book.author }}</p>
+        </div>
+      </div>
+  
+      <!-- 分页组件 -->
+      <div class="pagination">
+        <button :disabled="currentPage === 1" @click="prevPage">上一页</button>
+        <span>第 {{ currentPage }} 页 / 共 {{ totalPages }} 页</span>
+        <button :disabled="currentPage === totalPages" @click="nextPage">下一页</button>
+      </div>
+    </div>
 </div>
   </template>
   
@@ -86,110 +102,31 @@
         "成长",
       ],
       books: [
-        {
-          title: "图书1",
-          author: "作者1",
-          cover: "https://via.placeholder.com/120x180",
-          description: "这是一本非常有趣的书，值得一读。",
-          category: "文学",
-        },
-        {
-          title: "图书2",
-          author: "作者2",
-          cover: "https://via.placeholder.com/120x180",
-          description: "充满悬疑和惊险的小说。",
-          category: "推理",
-        },
-        {
-          title: "图书3",
-          author: "作者3",
-          cover: "https://via.placeholder.com/120x180",
-          description: "探索未知的科幻世界。",
-          category: "科幻",
-        },
-        {
-          title: "图书4",
-          author: "作者4",
-          cover: "https://via.placeholder.com/120x180",
-          description: "了解历史的点点滴滴。",
-          category: "历史",
-        },
-        {
-          title: "图书5",
-          author: "作者5",
-          cover: "https://via.placeholder.com/120x180",
-          description: "记录旅行的点滴，感受世界的美好。",
-          category: "旅行",
-        },
-        {
-          title: "图书6",
-          author: "作者6",
-          cover: "https://via.placeholder.com/120x180",
-          description: "探索美食的奥秘。",
-          category: "美食",
-        },
-        {
-          title: "图书6",
-          author: "作者6",
-          cover: "https://via.placeholder.com/120x180",
-          description: "探索美食的奥秘。",
-          category: "美食",
-        },
-        {
-          title: "图书6",
-          author: "作者6",
-          cover: "https://via.placeholder.com/120x180",
-          description: "探索美食的奥秘。",
-          category: "美食",
-        },
-        {
-          title: "图书6",
-          author: "作者6",
-          cover: "https://via.placeholder.com/120x180",
-          description: "探索美食的奥秘。",
-          category: "美食",
-        },
-        {
-          title: "图书6",
-          author: "作者6",
-          cover: "https://via.placeholder.com/120x180",
-          description: "探索美食的奥秘。",
-          category: "美食",
-        },
-        {
-          title: "图书6",
-          author: "作者6",
-          cover: "https://via.placeholder.com/120x180",
-          description: "探索美食的奥秘。",
-          category: "美食",
-        },
-        {
-          title: "图书6",
-          author: "作者6",
-          cover: "https://via.placeholder.com/120x180",
-          description: "探索美食的奥秘。",
-          category: "美食",
-        },
-        {
-          title: "图书6",
-          author: "作者6",
-          cover: "https://via.placeholder.com/120x180",
-          description: "探索美食的奥秘。",
-          category: "美食",
-        },
-        {
-          title: "图书6",
-          author: "作者6",
-          cover: "https://via.placeholder.com/120x180",
-          description: "探索美食的奥秘。",
-          category: "美食",
-        },
+      { title: "图书1", description: "探索美食的奥秘。", category: "美食",author: "作者1", cover: "https://pic.arkread.com/cover/ebook/f/451846511.1703837771.jpg!cover_default.jpg" },
+        { title: "图书2", description: "探索美食的奥秘。", category: "美食",author: "作者2", cover: "https://pic.arkread.com/cover/ebook/f/451846511.1703837771.jpg!cover_default.jpg" },
+        { title: "图书3", description: "探索美食的奥秘。", category: "美食",author: "作者3", cover: "https://pic.arkread.com/cover/ebook/f/451846511.1703837771.jpg!cover_default.jpg" },
+        { title: "图书4", description: "探索美食的奥秘。", category: "美食",author: "作者4", cover: "https://pic.arkread.com/cover/ebook/f/451846511.1703837771.jpg!cover_default.jpg" },
+        { title: "图书5", description: "探索美食的奥秘。", category: "美食",author: "作者5", cover: "https://pic.arkread.com/cover/ebook/f/451846511.1703837771.jpg!cover_default.jpg" },
+        { title: "图书6", description: "探索美食的奥秘。", category: "美食",author: "作者6", cover: "https://pic.arkread.com/cover/ebook/f/451846511.1703837771.jpg!cover_default.jpg" },
+        { title: "图书7", description: "探索美食的奥秘。", category: "美食",author: "作者7", cover: "https://pic.arkread.com/cover/ebook/f/451846511.1703837771.jpg!cover_default.jpg" },
+        { title: "图书8", description: "探索美食的奥秘。", category: "美食",author: "作者8", cover: "https://pic.arkread.com/cover/ebook/f/122163837.1653694565.jpg!cover_default.jpg" },
+        { title: "图书9", description: "探索美食的奥秘。", category: "美食",author: "作者9", cover: "https://pic.arkread.com/cover/ebook/f/122163837.1653694565.jpg!cover_default.jpg" },
+        { title: "图书10", description: "探索美食的奥秘。", category: "美食",author: "作者10", cover: "https://pic.arkread.com/cover/ebook/f/122163837.1653694565.jpg!cover_default.jpg" },
+        { title: "图书11", description: "探索美食的奥秘。", category: "美食",author: "作者11", cover: "https://pic.arkread.com/cover/ebook/f/122163837.1653694565.jpg!cover_default.jpg" },
+        { title: "图书11", description: "探索美食的奥秘。", category: "美食",author: "作者11", cover: "https://pic.arkread.com/cover/ebook/f/122163837.1653694565.jpg!cover_default.jpg" },
+        { title: "图书11", description: "探索美食的奥秘。", category: "美食",author: "作者11", cover: "https://pic.arkread.com/cover/ebook/f/122163837.1653694565.jpg!cover_default.jpg" },
+        { title: "图书11", description: "探索美食的奥秘。", category: "美食",author: "作者11", cover: "https://pic.arkread.com/cover/ebook/f/122163837.1653694565.jpg!cover_default.jpg" },
+        { title: "图书11", description: "探索美食的奥秘。", category: "美食",author: "作者11", cover: "https://pic.arkread.com/cover/ebook/f/122163837.1653694565.jpg!cover_default.jpg" },
+        { title: "Python编程：从入门到实践", description: "探索美食的奥秘。", category: "美食",author: "[美] 埃里克·马瑟斯", cover: "https://pic.arkread.com/cover/ebook/f/122163837.1653694565.jpg!cover_default.jpg" },
+
       ],
       currentPage: 1,
-      itemsPerPage: 10, // 每页显示的图书数量
-      activeCategory: "全部", // 当前选中的分类
-        currentIndex: 0,
-        intervalId: null,
+        itemsPerPage: 15, // 每页显示的图书数量
+      // currentPage: 1,
+      // itemsPerPage: 10, // 每页显示的图书数量
+      // activeCategory: "全部", // 当前选中的分类
+      //   currentIndex: 0,
+      //   intervalId: null,
       };
     },
     computed: {
@@ -253,16 +190,19 @@
 }
 
 .book-item {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-  padding: 15px;
-  margin-bottom: 20px;
-  border: 0px solid #eaeaea;
-  border-radius: 2px;
+  /* display: flex; */
+  /* gap: 20px; */
+  /* align-items: flex-start; */
+  /* padding: 15px; */
+  /* margin-bottom: 20px; */
+  /* border: 0px solid #eaeaea; */
+  /* border-radius: 2px; */
   /* background-color: #fff; */
   /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 每行显示3本书 */
+    gap: 20px;
 }
 
 .book-item:hover {
