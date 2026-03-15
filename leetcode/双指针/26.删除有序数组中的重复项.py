@@ -1,47 +1,48 @@
-"""
-输入：nums = [1,1,2]
-输出：2, nums = [1,2,_]
-解释：函数应该返回新的长度 2 ，并且原数组 nums 的前两个元素被修改为 1, 2 。不需要考虑数组中超出新长度后面的元素。
-
-输入：nums = [0,0,1,1,1,2,2,3,3,4]
-输出：5, nums = [0,1,2,3,4]
-解释：函数应该返回新的长度 5 ， 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4 。不需要考虑数组中超出新长度后面的元素。
-
-思路
-
-快慢指针 left 指向0 right 指向1
-比较left 和 right 指向的值是否相等，如果相等，right向前移动
-如果不相等，left移动一位，然后将right的值赋到left上
-
-相当于 left 用来记录，right用来扫描，当right扫到新值（新值就是和当前left所指的值比较）时，left就记录下，
-当right没有扫的新值时， 就一直扫下去直到遇见新值或结束
-
-上面所有的前提是 所给的是 升序排列 的数组
-
-"""
+from typing import List
 
 
 class Solution:
-    def removeDuplicates(self, nums):
-        left = 0
-        right = 1
+    def removeDuplicates_brute(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
 
-        while right < len(nums):
-            if nums[left] == nums[right]:
-                right += 1
+        i = 0
+        # 使用while循环，因为数组长度在动态变化[citation:4]
+        while i < len(nums) - 1:
+            if nums[i] == nums[i + 1]:
+                # 发现重复，使用pop(i)移除重复元素
+                nums.pop(i + 1)
+                # 注意：i不递增，继续检查当前位置
             else:
-                # right扫到不同的值时，left记录一下
-                left += 1
-                nums[left] = nums[right]
-                # right继续扫描后面的值
-                right += 1
-        # 最后返回left停止位置的长度
-        return left + 1, nums
+                i += 1  # 没有重复，检查下一个
+        return len(nums)
+
+    def removeDuplicates(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
+
+        slow = 0  # 慢指针
+        # 快指针从1开始遍历[citation:7]
+        for fast in range(1, len(nums)):
+            if nums[fast] != nums[slow]:  # 发现不重复元素
+                slow += 1
+                nums[slow] = nums[fast]  # 赋值[citation:1]
+        return slow + 1  # 返回新长度[citation:8]
 
 
-if __name__ == '__main__':
-    nums = [1, 1, 2]
-    # nums = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
-    s = Solution()
-    res = s.removeDuplicates(nums)
-    print(res)
+if __name__ == "__main__":
+    solution = Solution()
+
+    # 示例 1
+    nums1 = [1, 1, 2]
+    len1 = solution.removeDuplicates_brute(nums1)
+    len1 = solution.removeDuplicates(nums1)
+    print(f"新长度: {len1}")
+    print(f"修改后数组: {nums1[:len1]}")
+
+    # 示例 2
+    nums2 = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
+    len2 = solution.removeDuplicates_brute(nums2)
+    len2 = solution.removeDuplicates(nums2)
+    print(f"新长度: {len2}")
+    print(f"修改后数组: {nums2[:len2]}")
